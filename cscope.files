@@ -1,0 +1,7 @@
+./odroid/libserial.cpp
+./atxmega/include/atxmega.h
+./atxmega/include/uart.h
+./atxmega/include/sys_clk.h
+./atxmega/src/sys_clk.c
+./atxmega/src/uart.c
+./atxmega/src/atxmega.c

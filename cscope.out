@@ -1,0 +1,749 @@
+cscope 15 $HOME/truck-server/Documents/NewRobot               0000003928
+	@atxmega/include/atxmega.h
+
+1 #i‚de‡
+ATXMEGA_H
+
+
+2 
+	#ATXMEGA_H
+
+
+	)
+
+5 #i‚de‡
+__AVR_ATxmega128A4U__
+
+
+6 
+	#__AVR_ATxmega128A4U__
+
+
+	)
+
+9 #i‚de‡
+F_CPU
+
+
+10 
+	#F_CPU
+ 32000000UL
+
+	)
+
+13 #i‚de‡
+__OPTIMIZE__
+
+
+14 
+	#__OPTIMIZE__
+
+
+	)
+
+17 
+	~<avr/io.h
+>
+
+20 
+	~<avr/öãºu±.h
+>
+
+21 
+	~<avr/˝ufunc.h
+>
+
+22 
+	~<utû/dñay.h
+>
+
+23 
+	~"u¨t.h
+"
+
+24 
+	~"sys_˛k.h
+"
+
+	@atxmega/include/sys_clk.h
+
+1 #i‚de‡
+SYS_CLK_H
+
+
+2 
+	#SYS_CLK_H
+
+
+	)
+
+4 
+Clk32MhzInô
+();
+
+5 
+WDTDisbÀ
+();
+
+	@atxmega/include/uart.h
+
+1 #i‚de‡
+UART_H
+
+
+2 
+	#UART_H
+
+
+	)
+
+6 
+UARTTønsmô
+(
+å™s
+);
+
+7 
+UARTInô
+();
+
+	@atxmega/src/atxmega.c
+
+1 
+	~"../ö˛ude/©xmega.h
+"
+
+3 vﬁ©ûê
+	gcD©aWrôe
+[256];
+
+4 vﬁ©ûê*
+	gpD©aRe˚ived
+ = 
+cD©aWrôe
+;
+
+6 
+	$maö
+()
+
+8 
+	`˛i
+();
+
+10 
+	`Clk32MhzInô
+();
+
+11 
+	`WDTDisbÀ
+();
+
+12 
+	`UARTInô
+();
+
+15 
+PMIC_CTRL
+ |
+PMIC_LOLVLEX_bm
+;
+
+16 
+	`£i
+();
+
+19 
+PORTE
+.
+DIRSET
+ |
+PIN1_bm
+;
+
+23 
+	`_dñay_ms
+(1000);
+
+25 
+	`UARTTøns
+('8');
+
+28 
+	}
+}
+
+	@atxmega/src/sys_clk.c
+
+1 
+	~"../ö˛ude/©xmega.h
+"
+
+4 
+	$Clk32MhzInô
+()
+
+6 
+OSC
+.
+CTRL
+ |
+PIN1_bm
+;
+
+7 !(
+OSC
+.
+STATUS
+ & 
+PIN1_bm
+));
+
+10 
+CCP
+ |
+CCP_IOREG_gc
+;
+
+11 
+CLK
+.
+PSCTRL
+ |(
+CLK_PSADIV_1_gc
+ | 
+CLK_PSBCDIV_1_1_gc
+ );
+
+14 
+CCP
+ |
+CCP_IOREG_gc
+;
+
+15 
+CLK
+.
+CTRL
+ |
+CLK_SCLKSEL_RC32M_gc
+;
+
+18 
+OSC
+.
+CTRL
+ &~
+PIN0_bm
+;
+
+19 
+	}
+}
+
+21 
+	$WDTDisbÀ
+()
+
+24 
+CCP
+ |
+CCP_IOREG_gc
+;
+
+26 
+WDT
+.
+CTRL
+ |((WDT.CTRL & ~
+PIN1_bm
+Ë| 
+PIN0_bm
+);
+
+27 
+	}
+}
+
+	@atxmega/src/uart.c
+
+1 
+	~"../ö˛ude/©xmega.h
+"
+
+3 vﬁ©ûê*
+pD©aRe˚ived
+;
+
+4 vﬁ©ûê
+cD©aWrôe
+[256];
+
+6 
+	$UARTInô
+()
+
+8 
+	#BSEL
+ 131
+
+	)
+
+9 
+	#BSCALE
+ -3
+
+	)
+
+13 
+PORTC_OUTSET
+ |
+PIN7_bm
+;
+
+15 
+PORTC_DIRSET
+ |
+PIN7_bm
+;
+
+16 
+PORTC_DIRCLR
+ |
+PIN6_bm
+;
+
+25 
+USARTC1_BAUDCTRLA
+ |(
+USART_BSEL_gm
+ & 
+BSEL
+);
+
+26 
+USARTC1_BAUDCTRLB
+ |((
+BSCALE
+ << 4Ë| ((
+BSEL
+ & 0xf00) >> 8));
+
+29 
+USARTC1_CTRLC
+ |(
+USART_CMODE_ASYNCHRONOUS_gc
+ | 
+USART_PMODE_DISABLED_gc
+ | 
+USART_CHSIZE_8BIT_gc
+);
+
+31 
+USARTC1_CTRLA
+ |
+USART_RXCINTLVL0_bm
+;
+
+33 
+USARTC1_CTRLB
+ |
+USART_RXEN_bm
+ | 
+USART_TXEN_bm
+;
+
+34 
+	}
+}
+
+37 
+	$ISR
+(
+USARTC1_RXC_ve˘
+)
+
+39 !(
+USARTC1_STATUS
+ & 
+USART_RXCIF_bm
+))
+
+40 
+	`_NOP
+();
+
+41 
+cD©aWrôe
+[0] = 
+USARTC1_DATA
+;
+
+44 
+	}
+}
+
+47 
+	$UARTTøns
+(
+cD©a
+)
+
+49 !(
+USARTC1_STATUS
+ & 
+USART_DREIF_bm
+))
+
+50 
+	`_NOP
+();
+
+52 
+USARTC1_DATA
+ = 
+cD©a
+;
+
+53 
+PORTE
+.
+OUTTGL
+ |
+PIN1_bm
+;
+
+54 
+	}
+}
+
+	@odroid/libserial.cpp
+
+1 
+	~<io°ªam
+>
+
+2 
+	~<iom™ù
+>
+
+3 
+	~<SîülSåóm.h
+>
+
+5 
+	#DEVICE
+ "/dev/âyUSB0"
+
+	)
+
+6 
+	#RET_SUCCESS
+ 0
+
+	)
+
+8 
+SîülInô
+(
+LibSîül
+::
+SîülSåóm
+& 
+S
+, c⁄° *
+pDevi˚
+);
+
+10 
+	$maö
+ ( 
+¨gc
+, **
+¨gv
+ )
+
+12 
+åy
+
+
+21 
+LibSîül
+::
+SîülSåóm
+ 
+S
+;
+
+22 
+k
+;
+
+23 i‡((
+k
+ = 
+	`SîülInô
+(
+S
+, "/dev/âyUSB0")Ë!
+RET_SUCCESS
+)
+
+28 
+	`¶ìp
+(1);
+
+30 
+°d
+::
+cout
+ << "Sëu∞com∂ëe" << std::
+ídl
+;
+
+31 
+cByã
+;
+
+32 
+S
+.
+	`good
+())
+
+34 i‡(
+S
+.
+	`rdbuf
+()->
+	`ö_avaû
+())
+
+36 
+S
+.
+	`gë
+(
+cByã
+);
+
+37 
+°d
+::
+cout
+ << "Re˚ived: " << 
+cByã
+ << "\n";
+
+39 
+S
+.
+	`wrôe
+("8", ("8"));
+
+40 
+	`u¶ìp
+(100000);
+
+42 
+°d
+::
+˚º
+ << "SerialStream broke, bye bye\n";
+
+45 
+	`ˇtch
+(
+°d
+::
+ex˚±i⁄
+ 
+e
+)
+
+47 
+°d
+::
+˚º
+ << "Ex˚±i⁄ " << 
+e
+.
+	`wh©
+(Ë<< std::
+ídl
+;
+
+49 
+	}
+}
+
+51 
+	$SîülInô
+(
+LibSîül
+::
+SîülSåóm
+& 
+S
+, c⁄° *
+pDevi˚
+)
+
+53 i‡(
+pDevi˚
+ =
+nuŒ±r
+)
+
+56 
+S
+.
+	`O≥n
+(
+DEVICE
+);
+
+59 i‡(
+S
+.
+	`good
+())
+
+60 
+S
+.
+	`SëBaudR©e
+(
+LibSîül
+::
+SîülSåómBuf
+::
+BAUD_115200
+);
+
+63 
+°d
+::
+˚º
+ << "FaûedÅÿO≥¿" << 
+DEVICE
+ << std::
+ídl
+;
+
+64 
+	`exô
+(-1);
+
+67 i‡(
+S
+.
+	`good
+())
+
+68 
+S
+.
+	`SëCh¨Size
+–
+LibSîül
+::
+SîülSåómBuf
+::
+CHAR_SIZE_8
+ ) ;
+
+71 
+°d
+::
+˚º
+ << "FaûedÅÿ£àBAUD_115200" << std::
+ídl
+;
+
+72 
+	`exô
+(-1);
+
+75 i‡(
+S
+.
+	`good
+())
+
+76 
+S
+.
+	`SëP¨ôy
+(
+LibSîül
+::
+SîülSåómBuf
+::
+PARITY_NONE
+);
+
+79 
+°d
+::
+˚º
+ << "FaûedÅÿ£àCHAR_SIZE_8" << std::
+ídl
+;
+
+80 
+	`exô
+(-1);
+
+83 i‡(
+S
+.
+	`good
+())
+
+84 
+S
+.
+	`SëFlowC⁄åﬁ
+(
+LibSîül
+::
+SîülSåómBuf
+::
+FLOW_CONTROL_NONE
+);
+
+87 
+°d
+::
+˚º
+ << "FaûedÅÿ£àPARITY_NONE" << std::
+ídl
+;
+
+88 
+	`exô
+(-1);
+
+91  
+RET_SUCCESS
+;
+
+92 
+	}
+}
+
+	@
+1
+.
+1
+/usr/include
+7
+159
+atxmega/include/atxmega.h
+atxmega/include/sys_clk.h
+atxmega/include/uart.h
+atxmega/src/atxmega.c
+atxmega/src/sys_clk.c
+atxmega/src/uart.c
+odroid/libserial.cpp

@@ -1,0 +1,70 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ATXMEGA_H	atxmega/include/atxmega.h	2;"	d
+AVR_HEX_FLAGS	atxmega/build/Makefile	/^AVR_HEX_FLAGS =avr-objcopy -j .text -j .data -O ihex$/;"	m
+AVR_OBJ_FLAGS	atxmega/build/Makefile	/^AVR_OBJ_FLAGS =-g -mmcu=$(DEVICE)$/;"	m
+AVR_SRC_FLAGS	atxmega/build/Makefile	/^AVR_SRC_FLAGS =-g -mmcu=$(DEVICE) -Os -c$/;"	m
+BSCALE	atxmega/src/uart.c	9;"	d	file:
+BSEL	atxmega/src/uart.c	8;"	d	file:
+CC	atxmega/build/Makefile	/^CC = avr-gcc$/;"	m
+CC	odroid/Makefile	/^CC = g++$/;"	m
+CFLAGS	odroid/Makefile	/^CFLAGS =-std=c++14 -Wall -c$/;"	m
+Clk32MhzInit	atxmega/include/sys_clk.h	/^void Clk32MhzInit();$/;"	p	signature:()
+Clk32MhzInit	atxmega/src/sys_clk.c	/^void Clk32MhzInit()$/;"	f
+DEVICE	atxmega/build/Makefile	/^DEVICE=atxmega128a4u$/;"	m
+DEVICE	odroid/libserial.cpp	5;"	d	file:
+ELF	atxmega/build/Makefile	/^ELF = $(SRC_MAIN:.c=.elf)$/;"	m
+EXE	atxmega/build/Makefile	/^EXE = atxmega$/;"	m
+EXE	odroid/Makefile	/^EXE = io$/;"	m
+F_CPU	atxmega/include/atxmega.h	10;"	d
+HEX	atxmega/build/Makefile	/^HEX = $(SRC_MAIN:.c=.hex)$/;"	m
+ISR	atxmega/src/uart.c	/^ISR(USARTC1_RXC_vect)$/;"	f
+LDFLAGS	odroid/Makefile	/^LDFLAGS =-lserial -lpthread$/;"	m
+OBJ	atxmega/build/Makefile	/^OBJ = $(notdir $(SRC:.c=.o))$/;"	m
+OBJ	odroid/Makefile	/^OBJ = $(SRC:.cpp=.o)$/;"	m
+PROGRAMMER	atxmega/build/Makefile	/^PROGRAMMER=dfu-programmer$/;"	m
+RET_SUCCESS	odroid/libserial.cpp	6;"	d	file:
+S	odroid/libserial.cpp	/^		LibSerial::SerialStream S;$/;"	l
+SRC	atxmega/build/Makefile	/^SRC = $(wildcard ..\/src\/*.c)$/;"	m
+SRC	odroid/Makefile	/^SRC = libserial.cpp$/;"	m
+SRC_MAIN	atxmega/build/Makefile	/^SRC_MAIN = $(EXE).c$/;"	m
+SYS_CLK_H	atxmega/include/sys_clk.h	2;"	d
+SerialInit	odroid/libserial.cpp	/^int SerialInit(LibSerial::SerialStream& S, const char *pDevice)$/;"	f	signature:(LibSerial::SerialStream& S, const char *pDevice)
+SerialInit	odroid/libserial.cpp	/^int SerialInit(LibSerial::SerialStream& S, const char *pDevice);$/;"	p	file:	signature:(LibSerial::SerialStream& S, const char *pDevice)
+SetBaudRate	odroid/libserial.cpp	/^		S.SetBaudRate(LibSerial::SerialStreamBuf::BAUD_115200);$/;"	p	file:	signature:(LibSerial::SerialStreamBuf::BAUD_115200)
+SetCharSize	odroid/libserial.cpp	/^		S.SetCharSize( LibSerial::SerialStreamBuf::CHAR_SIZE_8 ) ;$/;"	p	file:	signature:( LibSerial::SerialStreamBuf::CHAR_SIZE_8 )
+SetFlowControl	odroid/libserial.cpp	/^		S.SetFlowControl(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE);$/;"	p	file:	signature:(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE)
+SetParity	odroid/libserial.cpp	/^		S.SetParity(LibSerial::SerialStreamBuf::PARITY_NONE);$/;"	p	file:	signature:(LibSerial::SerialStreamBuf::PARITY_NONE)
+UARTInit	atxmega/include/uart.h	/^void UARTInit(void);$/;"	p	signature:(void)
+UARTInit	atxmega/src/uart.c	/^void UARTInit()$/;"	f
+UARTTrans	atxmega/src/uart.c	/^void UARTTrans(char cData)$/;"	f	signature:(char cData)
+UARTTransmit	atxmega/include/uart.h	/^void UARTTransmit(char trans);$/;"	p	signature:(char trans)
+UART_H	atxmega/include/uart.h	2;"	d
+WDTDisble	atxmega/include/sys_clk.h	/^void WDTDisble();$/;"	p	signature:()
+WDTDisble	atxmega/src/sys_clk.c	/^void WDTDisble()$/;"	f
+__AVR_ATxmega128A4U__	atxmega/include/atxmega.h	6;"	d
+__OPTIMIZE__	atxmega/include/atxmega.h	14;"	d
+cByte	odroid/libserial.cpp	/^				std::cout << "Received: " << cByte << "\\n";$/;"	l
+cByte	odroid/libserial.cpp	/^		char cByte;$/;"	l
+cDataWrite	atxmega/src/atxmega.c	/^volatile char cDataWrite[256];$/;"	v
+cerr	odroid/libserial.cpp	/^		std::cerr << "SerialStream broke, bye bye\\n";$/;"	m	class:std	file:
+endl	odroid/libserial.cpp	/^		std::cerr << "Failed to Open " << DEVICE << std::endl;$/;"	m	class:std	file:
+endl	odroid/libserial.cpp	/^		std::cerr << "Failed to set BAUD_115200" << std::endl;$/;"	m	class:std	file:
+endl	odroid/libserial.cpp	/^		std::cerr << "Failed to set CHAR_SIZE_8" << std::endl;$/;"	m	class:std	file:
+endl	odroid/libserial.cpp	/^		std::cerr << "Failed to set PARITY_NONE" << std::endl;$/;"	m	class:std	file:
+endl	odroid/libserial.cpp	/^		std::cout << "Setup complete" << std::endl;$/;"	m	class:std	file:
+get	odroid/libserial.cpp	/^				S.get(cByte);		$/;"	p	file:	signature:(cByte)
+k	odroid/libserial.cpp	/^		int k;$/;"	l
+main	atxmega/src/atxmega.c	/^int main(void)$/;"	f	signature:(void)
+main	odroid/libserial.cpp	/^int main ( int argc, char **argv ) $/;"	f	signature:( int argc, char **argv )
+pDataReceived	atxmega/src/atxmega.c	/^volatile char *pDataReceived = cDataWrite;$/;"	v
+std::cerr	odroid/libserial.cpp	/^		std::cerr << "SerialStream broke, bye bye\\n";$/;"	m	class:std	file:
+std::endl	odroid/libserial.cpp	/^		std::cerr << "Failed to Open " << DEVICE << std::endl;$/;"	m	class:std	file:
+std::endl	odroid/libserial.cpp	/^		std::cerr << "Failed to set BAUD_115200" << std::endl;$/;"	m	class:std	file:
+std::endl	odroid/libserial.cpp	/^		std::cerr << "Failed to set CHAR_SIZE_8" << std::endl;$/;"	m	class:std	file:
+std::endl	odroid/libserial.cpp	/^		std::cerr << "Failed to set PARITY_NONE" << std::endl;$/;"	m	class:std	file:
+std::endl	odroid/libserial.cpp	/^		std::cout << "Setup complete" << std::endl;$/;"	m	class:std	file:
