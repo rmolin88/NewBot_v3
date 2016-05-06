@@ -1,6 +1,6 @@
 CC = g++
-SRC = libserial.cpp
-OBJ = $(SRC:.cpp=.o)
+SRC = $(wildcard ../src/*.cpp)
+OBJ = $(notdir $(SRC:.cpp=.o))
 CFLAGS =-std=c++14 -Wall -c
 LDFLAGS =-lserial -lpthread
 EXE = io

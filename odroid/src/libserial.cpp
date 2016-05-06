@@ -5,6 +5,7 @@
 #define RET_SUCCESS 0
 
 int SerialInit(LibSerial::SerialStream& S, const char *pDevice);
+int ParseSerialDataRecvd(const char *pData);
 
 int main ( int argc, char **argv ) 
 {
@@ -33,7 +34,7 @@ int main ( int argc, char **argv )
 		{
 			while (S.rdbuf()->in_avail()) 
 			{
-				S.get(*pRead);		
+				S.get(cRead);		
 				// S.read(pRead, sizeof(cByte));		
 				std::cout << "Received: " << cRead << "\n";
 			}
@@ -89,5 +90,40 @@ int SerialInit(LibSerial::SerialStream& S, const char *pDevice)
 		exit(-1);
 	}
 
+	return RET_SUCCESS;
+}
+
+int ParseSerialDataRecvd(const char *pData)
+{
+	if (pData == nullptr)
+		return -1;
+
+	int leftSonar,centerSonar,rightSonar;
+	for ( int i = 0; i<4; i++ ) 
+	{
+		switch ( i ) 
+		{
+			case 0:
+				leftSonar += ( pData[0] - '0' ) *1000;
+				centerSonar += ( pData[4] - '0' ) *1000;
+				rightSonar += ( pData[8] - '0' ) *1000;
+				break;
+			case 1:
+				leftSonar += ( pData[1] - '0' ) *100;
+				centerSonar += ( pData[5] - '0' ) *100;
+				rightSonar += ( pData[9] - '0' ) *100;
+				break;
+			case 2:
+				leftSonar += ( pData[2] - '0' ) *10;
+				centerSonar += ( pData[6] - '0' ) *10;
+				rightSonar += ( pData[10] - '0' ) *10;
+				break;
+			case 3:
+				leftSonar += ( pData[3] - '0' );
+				centerSonar += ( pData[7] - '0' );
+				rightSonar += ( pData[11] - '0' );
+				break;
+		}
+	}
 	return RET_SUCCESS;
 }

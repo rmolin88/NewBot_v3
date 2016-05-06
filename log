@@ -1,0 +1,9 @@
+//////////////Fri 06 May 2016 06:27:57 PM EDT////////////////
+1. Create a new file main something that is going to call the serial
+	- we could make it a DLL or thead you decide.
+	- also needs a main robot class to organize the data
+	- follow up on the idea of organizational code
+	- a boss that tells people what to do
+2. Finish atxmega code
+	- have the data adc data ready to make process faster
+	- just receive instruction send adc reading then go to implement instruction
