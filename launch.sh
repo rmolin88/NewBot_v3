@@ -13,16 +13,17 @@ fi
 
 # make and launch atxmega code
 if [ "$1" = x -o "$1" = a ]; then
-	cd ~/Documents/NewRobot/atxmega/build
+	cd atxmega/build
 	make clean &&
 	make all && 
 	sudo dfu-programmer atxmega128a4u erase &&
 	sudo dfu-programmer atxmega128a4u flash atxmega.hex &&
 	sudo dfu-programmer atxmega128a4u start
+	cd ../..
 fi
 # make and launch odroid code
 if [ "$1" = o -o "$1" = a ]; then
-	cd ~/Documents/NewRobot/odroid/build
+	cd odroid/build
 	make clean &&
 	make all && 
 	./io $2
