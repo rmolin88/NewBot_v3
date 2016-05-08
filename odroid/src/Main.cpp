@@ -15,16 +15,21 @@ static int ParseSerialDataRecvd(const char *pData);
 // Odroid
 int main ( int argc, char **argv ) 
 {
-	
 	gbXmegaData = false;
 	gbXbeeData = false;
 	std::thread tSerialXmega(SerialXmegaCommunication,"/dev/ttyUSB0");
 	// std::thread tSerialXbee(SerialInitXbee);
 	// std::thread tImageProcessing(InitCamera);
-
+	
+	std::chrono::system_clock::time_point start;
+	std::chrono::system_clock::time_point end;
+	std::chrono::duration<double, std::milli> diff;
+	// std::chrono::duration<double> diff;
+	
 	char buff[CHAR_SIZE] = {0};
 	while (1)
 	{
+		start = std::chrono::system_clock::now();
 		if (gbXmegaData) 
 		{
 			// Do xmega processing
@@ -35,6 +40,16 @@ int main ( int argc, char **argv )
 
 		if (gbXbeeData) 
 			; // Do xbee processing
+		diff = end - start;
+		while (diff.count() < 100)
+		{
+			end = std::chrono::system_clock::now();
+			diff = end - start;
+		}
+		std::cout << "loop time: "
+					<< std::chrono::duration_cast<std::chrono::milliseconds>(
+						end.time_since_epoch()).count() 
+					<< '\n';
 	}
 }
 
@@ -81,7 +96,7 @@ int PrintMsg(const char *pMsg, const char *pThreadName)
 			return -1;
 
 		std::lock_guard<std::mutex> guard(mMutex);
-		std::cout << pThreadName << " says: " << pMsg << "\n";
+		std::cout << pThreadName << " says: " << pMsg << '\n';
 		return RET_SUCCESS;
 	}
 	catch(std::exception e)
