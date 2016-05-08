@@ -7,3 +7,13 @@
 2. Finish atxmega code
 	- have the data adc data ready to make process faster
 	- just receive instruction send adc reading then go to implement instruction
+//////////////Sat 07 May 2016 06:34:21 PM EDT////////////////
+1. Now working on the xbee code. 
+	- Having some issues I need to take care of
+	- havent touched stuff from above
+	- just realized that I dont need this shit
+	- all I need is serial communication
+	- that is all
+	- getting rid of it
+
+2. Much progress agains the above task very cool

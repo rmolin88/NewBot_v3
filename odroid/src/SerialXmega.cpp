@@ -1,13 +1,17 @@
-#include <iostream>
-#include <iomanip>
-#include <SerialStream.h>
+#include "../include/Odroid.h"
 
-#define RET_SUCCESS 0
+extern char cXmegaDataTx;
+extern char cXmegaDataRx;
+extern char cXbeeDataTx;
+extern char cXbeeDataRx;
 
-int SerialInit(LibSerial::SerialStream& S, const char *pDevice);
-int ParseSerialDataRecvd(const char *pData);
+extern std::atomic_bool bXmegaData;
+extern std::atomic_bool bXbeeData;
+extern std::mutex mMutex;
 
-int main ( int argc, char **argv ) 
+static int SerialInit(LibSerial::SerialStream& S, const char *pDevice);
+
+int SerialXmegaCommunication(const char *pDevice)
 {
 	try
 	{
@@ -20,7 +24,7 @@ int main ( int argc, char **argv )
 		
 		LibSerial::SerialStream S;
 		int k;
-		if ((k = SerialInit(S, "/dev/ttyUSB0")) != RET_SUCCESS)
+		if ((k = SerialInit(S, pDevice)) != RET_SUCCESS)
 		{
 			;// TODO: cry why we failed
 		}
@@ -37,7 +41,9 @@ int main ( int argc, char **argv )
 				S.get(cRead);		
 				// S.read(pRead, sizeof(cByte));		
 				std::cout << "Received: " << cRead << "\n";
+
 			}
+			bXmegaData = true;
 			S.write("8", sizeof("8"));
 			usleep(100000); // 100ms 
 		}
@@ -50,7 +56,7 @@ int main ( int argc, char **argv )
 	}
 }
 
-int SerialInit(LibSerial::SerialStream& S, const char *pDevice)
+static int SerialInit(LibSerial::SerialStream& S, const char *pDevice)
 {
 	if (pDevice == nullptr)
 		return -1;
@@ -93,37 +99,3 @@ int SerialInit(LibSerial::SerialStream& S, const char *pDevice)
 	return RET_SUCCESS;
 }
 
-int ParseSerialDataRecvd(const char *pData)
-{
-	if (pData == nullptr)
-		return -1;
-
-	int leftSonar,centerSonar,rightSonar;
-	for ( int i = 0; i<4; i++ ) 
-	{
-		switch ( i ) 
-		{
-			case 0:
-				leftSonar += ( pData[0] - '0' ) *1000;
-				centerSonar += ( pData[4] - '0' ) *1000;
-				rightSonar += ( pData[8] - '0' ) *1000;
-				break;
-			case 1:
-				leftSonar += ( pData[1] - '0' ) *100;
-				centerSonar += ( pData[5] - '0' ) *100;
-				rightSonar += ( pData[9] - '0' ) *100;
-				break;
-			case 2:
-				leftSonar += ( pData[2] - '0' ) *10;
-				centerSonar += ( pData[6] - '0' ) *10;
-				rightSonar += ( pData[10] - '0' ) *10;
-				break;
-			case 3:
-				leftSonar += ( pData[3] - '0' );
-				centerSonar += ( pData[7] - '0' );
-				rightSonar += ( pData[11] - '0' );
-				break;
-		}
-	}
-	return RET_SUCCESS;
-}
