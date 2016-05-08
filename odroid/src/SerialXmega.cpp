@@ -1,9 +1,9 @@
 #include "../include/Odroid.h"
 
-extern char gcXmegaDataTx;
-extern char gcXmegaDataRx;
-extern char gcXbeeDataTx;
-extern char gcXbeeDataRx;
+extern char gcXmegaDataTx[CHAR_SIZE];
+extern char gcXmegaDataRx[CHAR_SIZE];
+extern char gcXbeeDataTx[CHAR_SIZE];
+extern char gcXbeeDataRx[CHAR_SIZE];
 
 extern std::atomic_bool gbXmegaData;
 extern std::atomic_bool gbXbeeData;
@@ -15,39 +15,32 @@ int SerialXmegaCommunication(const char *pDevice)
 {
 	try
 	{
-		//std::cout << "define __linux__ = " << __linux__ << "\n";
-		//std::cout << "define __MAX_BAUD = " << __MAX_BAUD << "\n";
-		// std::cout << "323 && 0xF00 = " <<std::setbase(16) << (323 & 0xf00) << "\n";
-		//std::cout << "123 && 0xFF = " << std::setbase(16) << (123 & 0xff) << "\n";
-		// std::cout << "-3 << 4 = " << std::setbase(16) << (-3 << 4) << "\n";
-
-		
-		LibSerial::SerialStream S;
 		int k;
+		char cMsgErr[32];
+		LibSerial::SerialStream S;
+
 		if ((k = SerialInit(S, pDevice)) != RET_SUCCESS)
 		{
-			;// TODO: cry why we failed
+			std::sprintf(cMsgErr, "SerialInit() Error: %d", k);
+			PrintMsg(cMsgErr, "Xmega Thread");
+			return -100;
 		}
+
+		PrintMsg("Setup Complete", "Xmega Thread");
 
 		sleep(1); // Give time to atxmega to boot
 
-		// if (PrintMsg("Setup Complete", "Xmega") != RET_SUCCESS)
-			// exit(EXIT_FAILURE);
-		PrintMsg("Setup Complete", "Xmega");
-			
-		char cByte[128], cRead, *pRead = cByte;
-		// char cRead;
+		char *pRxData = gcXmegaDataRx;
 		while(S.good())
 		{
 			while (S.rdbuf()->in_avail()) 
 			{
-				S.get(cRead);		
-				PrintMsg("Received: " + cRead, "Xmega Thread");
-				gcXbeeDataRx = cRead;
+				S.get(*pRxData);		
+				pRxData++;
 				gbXmegaData = true;
 			}
 			S.write("8", sizeof("8"));
-			usleep(100000); // 100ms 
+			usleep(80000); // 100ms 
 		}
 		std::cerr << "SerialStream broke, bye bye\n";
 		return 8;
@@ -55,6 +48,7 @@ int SerialXmegaCommunication(const char *pDevice)
 	catch(std::exception e)
 	{
 		std::cerr << "Exception " << e.what() << std::endl;
+		return -100;
 	}
 }
 

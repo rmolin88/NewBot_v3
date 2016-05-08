@@ -1,10 +1,14 @@
 #include "../include/Odroid.h"
 
-#define CHAR_SIZE 32
 char gcXmegaDataTx[CHAR_SIZE] = {0};
 char gcXmegaDataRx[CHAR_SIZE] = {0};
 char gcXbeeDataTx[CHAR_SIZE] = {0};
 char gcXbeeDataRx[CHAR_SIZE] = {0};
+
+// std::atomic_char gcXmegaDataTx[CHAR_SIZE] = {0};
+// std::atomic_char gcXmegaDataRx[CHAR_SIZE] = {0};
+// std::atomic_char gcXbeeDataTx[CHAR_SIZE] = {0};
+// std::atomic_char gcXbeeDataRx[CHAR_SIZE] = {0};
 
 std::atomic_bool gbXmegaData;
 std::atomic_bool gbXbeeData;
@@ -17,7 +21,7 @@ int main ( int argc, char **argv )
 {
 	gbXmegaData = false;
 	gbXbeeData = false;
-	std::thread tSerialXmega(SerialXmegaCommunication,"/dev/ttyUSB0");
+	std::thread tSerialXmega(SerialXmegaCommunication,"/dev/ttyUSB1");
 	// std::thread tSerialXbee(SerialInitXbee);
 	// std::thread tImageProcessing(InitCamera);
 	
@@ -30,26 +34,29 @@ int main ( int argc, char **argv )
 	while (1)
 	{
 		start = std::chrono::system_clock::now();
-		if (gbXmegaData) 
+		if (gbXmegaData) // Do xmega processing
 		{
-			// Do xmega processing
-			std::sprintf(buff,"Received: %s", gcXbeeDataRx);
+			std::sprintf(buff,"Received: %s", gcXmegaDataRx);
 			PrintMsg(buff , "Main Thread");
+			printf("%d %d\n", gcXmegaDataRx[0], gcXmegaDataRx[1]);
 			gbXmegaData = false;
 		}
 
-		if (gbXbeeData) 
-			; // Do xbee processing
+		if (gbXbeeData) // Do xbee processing
+			; 
+
+		// wait to loop
+		// TODO: make this a function
 		diff = end - start;
 		while (diff.count() < 100)
 		{
 			end = std::chrono::system_clock::now();
 			diff = end - start;
 		}
-		std::cout << "loop time: "
-					<< std::chrono::duration_cast<std::chrono::milliseconds>(
-						end.time_since_epoch()).count() 
-					<< '\n';
+		// std::cout << "loop time: "
+					// << std::chrono::duration_cast<std::chrono::milliseconds>(
+						// end.time_since_epoch()).count() 
+					// << '\n';
 	}
 }
 

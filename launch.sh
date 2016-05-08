@@ -28,3 +28,14 @@ if [ "$1" = o -o "$1" = a ]; then
 	make all && 
 	./io $2
 fi
+
+if [ "$1" = cx -o "$1" = ca ]; then
+	cd atxmega/build
+	make clean
+	cd ../..
+fi
+
+if [ "$1" = co -o "$1" = ca ]; then
+	cd odroid/build
+	make clean
+fi
