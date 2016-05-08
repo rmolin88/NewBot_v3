@@ -42,10 +42,10 @@ int SerialXmegaCommunication(const char *pDevice)
 			while (S.rdbuf()->in_avail()) 
 			{
 				S.get(cRead);		
-				PrintMsg("Received: " + cRead, "Xmega");
+				PrintMsg("Received: " + cRead, "Xmega Thread");
+				gcXbeeDataRx = cRead;
+				gbXmegaData = true;
 			}
-			gcXbeeDataRx = cRead;
-			gbXmegaData = true;
 			S.write("8", sizeof("8"));
 			usleep(100000); // 100ms 
 		}

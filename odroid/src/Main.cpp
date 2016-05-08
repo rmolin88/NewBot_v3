@@ -16,6 +16,8 @@ static int ParseSerialDataRecvd(const char *pData);
 int main ( int argc, char **argv ) 
 {
 	
+	gbXmegaData = false;
+	gbXbeeData = false;
 	std::thread tSerialXmega(SerialXmegaCommunication,"/dev/ttyUSB0");
 	// std::thread tSerialXbee(SerialInitXbee);
 	// std::thread tImageProcessing(InitCamera);
@@ -27,7 +29,7 @@ int main ( int argc, char **argv )
 		{
 			// Do xmega processing
 			std::sprintf(buff,"Received: %s", gcXbeeDataRx);
-			PrintMsg(buff , "Main Thread: ");
+			PrintMsg(buff , "Main Thread");
 			gbXmegaData = false;
 		}
 
