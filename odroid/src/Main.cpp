@@ -1,12 +1,13 @@
 #include "../include/Odroid.h"
 
-char cXmegaDataTx;
-char cXmegaDataRx;
-char cXbeeDataTx;
-char cXbeeDataRx;
+#define CHAR_SIZE 32
+char gcXmegaDataTx[CHAR_SIZE] = {0};
+char gcXmegaDataRx[CHAR_SIZE] = {0};
+char gcXbeeDataTx[CHAR_SIZE] = {0};
+char gcXbeeDataRx[CHAR_SIZE] = {0};
 
-std::atomic_bool bXmegaData;
-std::atomic_bool bXbeeData;
+std::atomic_bool gbXmegaData;
+std::atomic_bool gbXbeeData;
 std::mutex mMutex;
 
 static int ParseSerialDataRecvd(const char *pData);
@@ -14,19 +15,24 @@ static int ParseSerialDataRecvd(const char *pData);
 // Odroid
 int main ( int argc, char **argv ) 
 {
-
+	
 	std::thread tSerialXmega(SerialXmegaCommunication,"/dev/ttyUSB0");
 	// std::thread tSerialXbee(SerialInitXbee);
 	// std::thread tImageProcessing(InitCamera);
 
+	char buff[CHAR_SIZE] = {0};
 	while (1)
 	{
-		if (bXmegaData) 
-			; // Do xmega processing
+		if (gbXmegaData) 
+		{
+			// Do xmega processing
+			std::sprintf(buff,"Received: %s", gcXbeeDataRx);
+			PrintMsg(buff , "Main Thread: ");
+			gbXmegaData = false;
+		}
 
-		if (bXbeeData) 
+		if (gbXbeeData) 
 			; // Do xbee processing
-
 	}
 }
 
@@ -69,6 +75,9 @@ int PrintMsg(const char *pMsg, const char *pThreadName)
 {
 	try
 	{
+		if ((!pMsg) || (!pThreadName))
+			return -1;
+
 		std::lock_guard<std::mutex> guard(mMutex);
 		std::cout << pThreadName << " says: " << pMsg << "\n";
 		return RET_SUCCESS;

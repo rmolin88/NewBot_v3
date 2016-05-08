@@ -1,12 +1,12 @@
 #include "../include/Odroid.h"
 
-extern char cXmegaDataTx;
-extern char cXmegaDataRx;
-extern char cXbeeDataTx;
-extern char cXbeeDataRx;
+extern char gcXmegaDataTx;
+extern char gcXmegaDataRx;
+extern char gcXbeeDataTx;
+extern char gcXbeeDataRx;
 
-extern std::atomic_bool bXmegaData;
-extern std::atomic_bool bXbeeData;
+extern std::atomic_bool gbXmegaData;
+extern std::atomic_bool gbXbeeData;
 extern std::mutex mMutex;
 
 static int SerialInit(LibSerial::SerialStream& S, const char *pDevice);
@@ -30,8 +30,11 @@ int SerialXmegaCommunication(const char *pDevice)
 		}
 
 		sleep(1); // Give time to atxmega to boot
-		std::cout << "Setup complete" << std::endl;
 
+		// if (PrintMsg("Setup Complete", "Xmega") != RET_SUCCESS)
+			// exit(EXIT_FAILURE);
+		PrintMsg("Setup Complete", "Xmega");
+			
 		char cByte[128], cRead, *pRead = cByte;
 		// char cRead;
 		while(S.good())
@@ -39,11 +42,10 @@ int SerialXmegaCommunication(const char *pDevice)
 			while (S.rdbuf()->in_avail()) 
 			{
 				S.get(cRead);		
-				// S.read(pRead, sizeof(cByte));		
-				std::cout << "Received: " << cRead << "\n";
-
+				PrintMsg("Received: " + cRead, "Xmega");
 			}
-			bXmegaData = true;
+			gcXbeeDataRx = cRead;
+			gbXmegaData = true;
 			S.write("8", sizeof("8"));
 			usleep(100000); // 100ms 
 		}

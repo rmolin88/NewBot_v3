@@ -7,7 +7,7 @@ OBJ = $(notdir $(SRC:.c=.o))
 HEX = $(SRC_MAIN:.c=.hex)
 ELF = $(SRC_MAIN:.c=.elf)
 DEVICE=atxmega128a4u
-AVR_SRC_FLAGS =-g -mmcu=$(DEVICE) -Os -c
+AVR_SRC_FLAGS =-g -mmcu=$(DEVICE) -O3 -c
 AVR_OBJ_FLAGS =-g -mmcu=$(DEVICE)
 AVR_HEX_FLAGS =avr-objcopy -j .text -j .data -O ihex
 PROGRAMMER=dfu-programmer
