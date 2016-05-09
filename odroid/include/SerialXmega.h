@@ -6,6 +6,7 @@
 
 #define RET_SUCCESS 0
 
-int SerialXmegaCommunication(const char *pDevice);
+int SerialCommunication(LibSerial::SerialStream& S);
+int SerialInit(LibSerial::SerialStream& S, const char *pDevice);
 
 #endif

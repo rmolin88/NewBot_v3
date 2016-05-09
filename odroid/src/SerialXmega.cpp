@@ -9,27 +9,11 @@ extern std::atomic_bool gbXmegaData;
 extern std::atomic_bool gbXbeeData;
 extern std::mutex mMutex;
 
-static int SerialInit(LibSerial::SerialStream& S, const char *pDevice);
 
-int SerialXmegaCommunication(const char *pDevice)
+int SerialCommunication(LibSerial::SerialStream& S)
 {
 	try
 	{
-		int k;
-		char cMsgErr[32];
-		LibSerial::SerialStream S;
-
-		if ((k = SerialInit(S, pDevice)) != RET_SUCCESS)
-		{
-			std::sprintf(cMsgErr, "SerialInit() Error: %d", k);
-			PrintMsg(cMsgErr, "Xmega Thread");
-			return -100;
-		}
-
-		PrintMsg("Setup Complete", "Xmega Thread");
-
-		sleep(1); // Give time to atxmega to boot
-
 		char *pRxData = gcXmegaDataRx;
 		while(S.good())
 		{
@@ -52,7 +36,7 @@ int SerialXmegaCommunication(const char *pDevice)
 	}
 }
 
-static int SerialInit(LibSerial::SerialStream& S, const char *pDevice)
+int SerialInit(LibSerial::SerialStream& S, const char *pDevice)
 {
 	if (pDevice == nullptr)
 		return -1;

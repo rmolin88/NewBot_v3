@@ -1,8 +1,8 @@
 if [ $# -lt 1 ]; then
 	printf "USAGE\n \
 		./launch.sh x; for atxmega\n\
-		./launch.sh o <argument>; for odroid\n\
-		./lanuch.sh a; for both\n\
+		./launch.sh o <arguments>; for odroid\n\
+		./lanuch.sh a <arguments>; for both\n\
 		./lanuch.sh t; for touch to fix clock skew\n"
 fi
 	 
@@ -26,7 +26,7 @@ if [ "$1" = o -o "$1" = a ]; then
 	cd odroid/build
 	make clean &&
 	make all && 
-	./io $2
+	./io $2 $3
 fi
 
 if [ "$1" = cx -o "$1" = ca ]; then

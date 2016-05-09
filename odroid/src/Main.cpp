@@ -19,17 +19,41 @@ static int ParseSerialDataRecvd(const char *pData);
 // Odroid
 int main ( int argc, char **argv ) 
 {
+
+	if (argc < 3)
+	{
+		std::cout << "Bad Usage" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	// TODO: strip xmega=
+	int k;
+	LibSerial::SerialStream lserialXmega, lserialXbee;
+
+	if ((k = SerialInit(lserialXmega, argv[1])) != RET_SUCCESS)
+	{
+		std::cout << "SerialInit() Error: " << k << " on device :" << argv[1] << '\n';
+		exit(EXIT_FAILURE);
+	}
+
+	if ((k = SerialInit(lserialXbee, argv[2])) != RET_SUCCESS)
+	{
+		std::cout << "SerialInit() Error: " << k << " on device :" << argv[2] << '\n';
+		exit(EXIT_FAILURE);
+	}
+
+	PrintMsg("Setup Complete", "Main Thread");
+
 	gbXmegaData = false;
 	gbXbeeData = false;
-	std::thread tSerialXmega(SerialXmegaCommunication,"/dev/ttyUSB1");
+	std::thread tSerialXmega(SerialCommunication, std::ref(lserialXmega));
 	// std::thread tSerialXbee(SerialInitXbee);
 	// std::thread tImageProcessing(InitCamera);
-	
+
 	std::chrono::system_clock::time_point start;
 	std::chrono::system_clock::time_point end;
 	std::chrono::duration<double, std::milli> diff;
 	// std::chrono::duration<double> diff;
-	
+
 	char buff[CHAR_SIZE] = {0};
 	while (1)
 	{
@@ -54,9 +78,9 @@ int main ( int argc, char **argv )
 			diff = end - start;
 		}
 		// std::cout << "loop time: "
-					// << std::chrono::duration_cast<std::chrono::milliseconds>(
-						// end.time_since_epoch()).count() 
-					// << '\n';
+		// << std::chrono::duration_cast<std::chrono::milliseconds>(
+		// end.time_since_epoch()).count() 
+		// << '\n';
 	}
 }
 

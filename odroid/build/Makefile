@@ -1,3 +1,4 @@
+# TODO: try to make a unique make file that launches after done
 CC = g++
 SRC = ../src/Main.cpp ../src/SerialXmega.cpp
 OBJ = $(notdir $(SRC:.cpp=.o))
