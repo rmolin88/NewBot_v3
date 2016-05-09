@@ -1,5 +1,21 @@
 #include "../include/Odroid.h"
 
+#define LOOP_FREQ_AU_MS 100 // For Autonomous Mode 
+#define LOOP_FREQ_RM_MS 20 // For Remote Control Mode 
+
+// TODO: Make a robot class containing all this stuff
+// 			- make this class granular not so extensive with other little classes
+// TODO: implement serial communication protocol
+// 		- first thing returned from serial should ID
+// 		- something like x for xmega and b for xbee
+// 		- implement it so that you can request ID from serial
+// 		- like implement a series of CMD that you can issue to serial
+// 		- like send me ID, use this PWM and stuff like that
+// 		- The rate should also be dependant on the mode 
+// 		- which should be part of the CMD like go into Remote Control Mode
+// TODO: Push serial communication to its limits see how low you can get
+//
+
 char gcXmegaDataTx[CHAR_SIZE] = {0};
 char gcXmegaDataRx[CHAR_SIZE] = {0};
 char gcXbeeDataTx[CHAR_SIZE] = {0};
@@ -22,6 +38,7 @@ int main ( int argc, char **argv )
 
 	if (argc < 3)
 	{
+		//TODO: 
 		std::cout << "Bad Usage" << std::endl;
 		exit(EXIT_FAILURE);
 	}
@@ -41,7 +58,7 @@ int main ( int argc, char **argv )
 		exit(EXIT_FAILURE);
 	}
 
-	PrintMsg("Setup Complete", "Main Thread");
+	PrintMsg("Serial Setup Complete", "Main Thread");
 
 	gbXmegaData = false;
 	gbXbeeData = false;
@@ -55,32 +72,34 @@ int main ( int argc, char **argv )
 	// std::chrono::duration<double> diff;
 
 	char buff[CHAR_SIZE] = {0};
-	while (1)
+	while (1) // Threads are alive
 	{
 		start = std::chrono::system_clock::now();
 		if (gbXmegaData) // Do xmega processing
 		{
-			std::sprintf(buff,"Received: %s", gcXmegaDataRx);
+			std::sprintf(buff,"Xmega Received: %s", gcXmegaDataRx);
 			PrintMsg(buff , "Main Thread");
-			printf("%d %d\n", gcXmegaDataRx[0], gcXmegaDataRx[1]);
+			// printf("%d %d\n", gcXmegaDataRx[0], gcXmegaDataRx[1]);
 			gbXmegaData = false;
 		}
 
 		if (gbXbeeData) // Do xbee processing
-			; 
+		{
+			std::sprintf(buff,"Xbee Received: %s", gcXbeeDataRx);
+			PrintMsg(buff , "Main Thread");
+			// printf("%d %d\n", gcXbeeDataRx[0], gcXbeeDataRx[1]);
+			gbXbeeData = false;
+		}
 
 		// wait to loop
 		// TODO: make this a function
 		diff = end - start;
-		while (diff.count() < 100)
+		while (diff.count() < LOOP_FREQ_MS)
 		{
 			end = std::chrono::system_clock::now();
 			diff = end - start;
+			usleep(1000); // Do not use so many resources
 		}
-		// std::cout << "loop time: "
-		// << std::chrono::duration_cast<std::chrono::milliseconds>(
-		// end.time_since_epoch()).count() 
-		// << '\n';
 	}
 }
 
