@@ -103,6 +103,8 @@ int main ( int argc, char **argv )
 	}
 }
 
+// TODO: send serial data functions
+
 static int ParseSerialDataRecvd(const char *pData)
 {
 	if (pData == nullptr)
