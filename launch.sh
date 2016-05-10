@@ -1,9 +1,17 @@
 if [ $# -lt 1 ]; then
 	printf "USAGE\n \
-		./launch.sh x; for atxmega\n\
-		./launch.sh o <arguments>; for odroid\n\
-		./lanuch.sh a <arguments>; for both\n\
-		./lanuch.sh t; for touch to fix clock skew\n"
+		To launch the software use\n\
+		\t./launch.sh x; for atxmega\n\
+		\t./launch.sh o <arguments>; for odroid\n\
+		\t./launch.sh r <arguments>; for remote\n\
+		\t./lanuch.sh a <arguments>; for odroid and atxmega\n\
+		To fix clock skew\n\
+		\t./launch.sh t\n
+		To clean builds\n\
+		\t./launch.sh cx; for atxmega\n\
+		\t./launch.sh co; for odroid\n\
+		\t./launch.sh cr; for remote\n\
+		\t./lanuch.sh ca; for all\n"
 fi
 	 
 # prevents clock skew issues
@@ -28,6 +36,13 @@ if [ "$1" = o -o "$1" = a ]; then
 	make all && 
 	./io $2 $3
 fi
+# make and launch remote code
+if [ "$1" = r ]; then
+	cd remote/build
+	make clean &&
+	make all && 
+	./remote
+fi
 
 if [ "$1" = cx -o "$1" = ca ]; then
 	cd atxmega/build
@@ -37,5 +52,11 @@ fi
 
 if [ "$1" = co -o "$1" = ca ]; then
 	cd odroid/build
+	make clean
+	cd ../..
+fi
+
+if [ "$1" = cr -o "$1" = ca ]; then
+	cd remote/build
 	make clean
 fi
