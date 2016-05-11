@@ -1,4 +1,7 @@
+#! /bin/bash
+
 if [ $# -lt 1 ]; then
+
 	printf "USAGE\n \
 		To launch the software use\n\
 		\t./launch.sh x; for atxmega\n\
@@ -12,11 +15,13 @@ if [ $# -lt 1 ]; then
 		\t./launch.sh co; for odroid\n\
 		\t./launch.sh cr; for remote\n\
 		\t./lanuch.sh ca; for all\n"
+	exit 8
 fi
 	 
 # prevents clock skew issues
 if [ "$1" = t ]; then
 	find -exec touch \{\} \;
+	exit 0
 fi
 
 # make and launch atxmega code
@@ -60,3 +65,4 @@ if [ "$1" = cr -o "$1" = ca ]; then
 	cd remote/build
 	make clean
 fi
+exit $? # exit with exit status of last command 

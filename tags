@@ -4,139 +4,49 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-ATXMEGA_H	atxmega/include/atxmega.h	2;"	d
-AVR_HEX_FLAGS	atxmega/build/Makefile	/^AVR_HEX_FLAGS =avr-objcopy -j .text -j .data -O ihex$/;"	m
-AVR_OBJ_FLAGS	atxmega/build/Makefile	/^AVR_OBJ_FLAGS =-g -mmcu=$(DEVICE)$/;"	m
-AVR_SRC_FLAGS	atxmega/build/Makefile	/^AVR_SRC_FLAGS =-g -mmcu=$(DEVICE) -Os -c$/;"	m
-BSCALE	atxmega/src/uart.c	9;"	d	file:
-BSEL	atxmega/src/uart.c	8;"	d	file:
-CC	atxmega/build/Makefile	/^CC = avr-gcc$/;"	m
-CC	odroid/build/Makefile	/^CC = g++$/;"	m
-CFLAGS	odroid/build/Makefile	/^CFLAGS =-std=c++14 -Wall -c$/;"	m
-Clk32MhzInit	atxmega/include/sys_clk.h	/^void Clk32MhzInit();$/;"	p	signature:()
-Clk32MhzInit	atxmega/src/sys_clk.c	/^void Clk32MhzInit()$/;"	f
-DEVICE	atxmega/build/Makefile	/^DEVICE=atxmega128a4u$/;"	m
-ELF	atxmega/build/Makefile	/^ELF = $(SRC_MAIN:.c=.elf)$/;"	m
-EXE	atxmega/build/Makefile	/^EXE = atxmega$/;"	m
-EXE	odroid/build/Makefile	/^EXE = io$/;"	m
-F_CPU	atxmega/include/atxmega.h	10;"	d
-HEX	atxmega/build/Makefile	/^HEX = $(SRC_MAIN:.c=.hex)$/;"	m
-ISR	atxmega/src/uart.c	/^ISR(USARTC1_RXC_vect)$/;"	f
-LDFLAGS	odroid/build/Makefile	/^LDFLAGS =-L$(LIB) -lxbeep -lxbee -lpthread -lrt -lserial -lpthread$/;"	m
-LIB	odroid/build/Makefile	/^LIB = \/usr\/lib\/libxbeep.so$/;"	m
-LOCAL_CONNECTION	odroid/src/xbee_org.cpp	27;"	d	file:
-OBJ	atxmega/build/Makefile	/^OBJ = $(notdir $(SRC:.c=.o))$/;"	m
-OBJ	odroid/build/Makefile	/^OBJ = $(notdir $(SRC:.cpp=.o))$/;"	m
-PROGRAMMER	atxmega/build/Makefile	/^PROGRAMMER=dfu-programmer$/;"	m
-ParseSerialDataRecvd	odroid/src/libserial.cpp	/^int ParseSerialDataRecvd(const char *pData)$/;"	f	signature:(const char *pData)
-ParseSerialDataRecvd	odroid/src/libserial.cpp	/^int ParseSerialDataRecvd(const char *pData);$/;"	p	file:	signature:(const char *pData)
-RET_SUCCESS	odroid/src/libserial.cpp	5;"	d	file:
-S	odroid/src/libserial.cpp	/^		LibSerial::SerialStream S;$/;"	l
-SRC	atxmega/build/Makefile	/^SRC = $(wildcard ..\/src\/*.c)$/;"	m
-SRC	odroid/build/Makefile	/^SRC = ..\/src\/xbee.cpp$/;"	m
-SRC_MAIN	atxmega/build/Makefile	/^SRC_MAIN = $(EXE).c$/;"	m
-SYS_CLK_H	atxmega/include/sys_clk.h	2;"	d
-SerialInit	odroid/src/libserial.cpp	/^int SerialInit(LibSerial::SerialStream& S, const char *pDevice)$/;"	f	signature:(LibSerial::SerialStream& S, const char *pDevice)
-SerialInit	odroid/src/libserial.cpp	/^int SerialInit(LibSerial::SerialStream& S, const char *pDevice);$/;"	p	file:	signature:(LibSerial::SerialStream& S, const char *pDevice)
-SetBaudRate	odroid/src/libserial.cpp	/^		S.SetBaudRate(LibSerial::SerialStreamBuf::BAUD_115200);$/;"	p	file:	signature:(LibSerial::SerialStreamBuf::BAUD_115200)
-SetCharSize	odroid/src/libserial.cpp	/^		S.SetCharSize( LibSerial::SerialStreamBuf::CHAR_SIZE_8 ) ;$/;"	p	file:	signature:( LibSerial::SerialStreamBuf::CHAR_SIZE_8 )
-SetFlowControl	odroid/src/libserial.cpp	/^		S.SetFlowControl(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE);$/;"	p	file:	signature:(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE)
-SetParity	odroid/src/libserial.cpp	/^		S.SetParity(LibSerial::SerialStreamBuf::PARITY_NONE);$/;"	p	file:	signature:(LibSerial::SerialStreamBuf::PARITY_NONE)
-UARTInit	atxmega/include/uart.h	/^void UARTInit(void);$/;"	p	signature:(void)
-UARTInit	atxmega/src/uart.c	/^void UARTInit()$/;"	f
-UARTTrans	atxmega/src/uart.c	/^void UARTTrans(char cData)$/;"	f	signature:(char cData)
-UARTTransmit	atxmega/include/uart.h	/^void UARTTransmit(char trans);$/;"	p	signature:(char trans)
-UART_H	atxmega/include/uart.h	2;"	d
-USE_CALLBACKS	odroid/src/xbee_org.cpp	28;"	d	file:
-WDTDisble	atxmega/include/sys_clk.h	/^void WDTDisble();$/;"	p	signature:()
-WDTDisble	atxmega/src/sys_clk.c	/^void WDTDisble()$/;"	f
-__AVR_ATxmega128A4U__	atxmega/include/atxmega.h	6;"	d
-__OPTIMIZE__	atxmega/include/atxmega.h	14;"	d
-cByte	odroid/src/libserial.cpp	/^		char cByte[128], cRead, *pRead = cByte;$/;"	l
-cDataWrite	atxmega/src/atxmega.c	/^volatile char cDataWrite[256];$/;"	v
-cRead	odroid/src/libserial.cpp	/^				std::cout << "Received: " << cRead << "\\n";$/;"	l
-cRead	odroid/src/libserial.cpp	/^		char cByte[128], cRead, *pRead = cByte;$/;"	l
-centerSonar	odroid/src/libserial.cpp	/^	int leftSonar,centerSonar,rightSonar;$/;"	l
-cerr	odroid/src/libserial.cpp	/^		std::cerr << "SerialStream broke, bye bye\\n";$/;"	m	class:std	file:
-con	odroid/src/xbee.cpp	/^			pkt << con;   \/* or this *\/$/;"	l
-con	odroid/src/xbee.cpp	/^		myConnection con(xbee, "Local AT"); \/* with a callback *\/$/;"	p	file:	signature:(xbee, Ó)
-con	odroid/src/xbee_org.cpp	/^			pkt << con;   \/* or this *\/$/;"	l
-con	odroid/src/xbee_org.cpp	/^		myConnection con(xbee, "Local AT"); \/* with a callback *\/$/;"	p	file:	signature:(xbee, Ó)
-cout	odroid/src/xbee.cpp	/^	std::cout << "Callback!!\\n";$/;"	m	class:std	file:
-cout	odroid/src/xbee.cpp	/^	std::cout << "Got the data\\n";$/;"	m	class:std	file:
-cout	odroid/src/xbee.cpp	/^	std::cout << "\\n";$/;"	m	class:std	file:
-cout	odroid/src/xbee_org.cpp	/^			std::cout << "Available connection types:\\n";$/;"	m	class:std	file:
-cout	odroid/src/xbee_org.cpp	/^			std::cout << "\\n";$/;"	m	class:std	file:
-cout	odroid/src/xbee_org.cpp	/^		std::cout << "Available libxbee modes:\\n";$/;"	m	class:std	file:
-cout	odroid/src/xbee_org.cpp	/^		std::cout << "\\n";$/;"	m	class:std	file:
-cout	odroid/src/xbee_org.cpp	/^	std::cout << "Callback!!\\n";$/;"	m	class:std	file:
-cout	odroid/src/xbee_org.cpp	/^	std::cout << "Got the data\\n";$/;"	m	class:std	file:
-cout	odroid/src/xbee_org.cpp	/^	std::cout << "\\n";$/;"	m	class:std	file:
-endl	odroid/src/libserial.cpp	/^		std::cerr << "Failed to Open " << *pDevice << std::endl;$/;"	m	class:std	file:
-endl	odroid/src/libserial.cpp	/^		std::cerr << "Failed to set BAUD_115200" << std::endl;$/;"	m	class:std	file:
-endl	odroid/src/libserial.cpp	/^		std::cerr << "Failed to set CHAR_SIZE_8" << std::endl;$/;"	m	class:std	file:
-endl	odroid/src/libserial.cpp	/^		std::cerr << "Failed to set PARITY_NONE" << std::endl;$/;"	m	class:std	file:
-endl	odroid/src/libserial.cpp	/^		std::cout << "Setup complete" << std::endl;$/;"	m	class:std	file:
-get	odroid/src/libserial.cpp	/^				S.get(cRead);		$/;"	p	file:	signature:(cRead)
-i	odroid/src/xbee.cpp	/^	int i;$/;"	l
-i	odroid/src/xbee_org.cpp	/^				std::cout << "  " << *i;$/;"	l
-i	odroid/src/xbee_org.cpp	/^			std::cout << "  " << *i;$/;"	l
-i	odroid/src/xbee_org.cpp	/^			std::list<std::string>::iterator i;$/;"	l
-i	odroid/src/xbee_org.cpp	/^		std::list<std::string>::iterator i;$/;"	l
-i	odroid/src/xbee_org.cpp	/^	int i;$/;"	l
-k	odroid/src/libserial.cpp	/^		int k;$/;"	l
-leftSonar	odroid/src/libserial.cpp	/^	int leftSonar,centerSonar,rightSonar;$/;"	l
-main	atxmega/src/atxmega.c	/^int main(void)$/;"	f	signature:(void)
-main	odroid/src/libserial.cpp	/^int main ( int argc, char **argv ) $/;"	f	signature:( int argc, char **argv )
-main	odroid/src/xbee.cpp	/^int main(int argc, char *argv[]) {$/;"	f	signature:(int argc, char *argv[])
-main	odroid/src/xbee_org.cpp	/^int main(int argc, char *argv[]) {$/;"	f	signature:(int argc, char *argv[])
-mode	odroid/src/xbee.cpp	/^		std::cout << "Running libxbee in mode '" << xbee.mode() << "'\\n";$/;"	p	file:	signature:()
-mode	odroid/src/xbee.cpp	/^		xbee.mode();$/;"	p	file:	signature:()
-mode	odroid/src/xbee_org.cpp	/^		std::cout << "Running libxbee in mode '" << xbee.mode() << "'\\n";$/;"	p	file:	signature:()
-modes	odroid/src/xbee_org.cpp	/^		std::list<std::string> modes = libxbee::getModes();$/;"	l
-myConnection	odroid/src/xbee.cpp	/^		explicit myConnection(libxbee::XBee &parent, std::string type, struct xbee_conAddress *address = NULL): libxbee::ConCallback(parent, type, address) {};$/;"	f	class:myConnection	access:public	signature:(libxbee::XBee &parent, std::string type, struct xbee_conAddress *address = NULL)
-myConnection	odroid/src/xbee.cpp	/^class myConnection: public libxbee::ConCallback {$/;"	c	file:	inherits:libxbee::ConCallback
-myConnection	odroid/src/xbee_org.cpp	/^		explicit myConnection(libxbee::XBee &parent, std::string type, struct xbee_conAddress *address = NULL): libxbee::ConCallback(parent, type, address) {};$/;"	f	class:myConnection	access:public	signature:(libxbee::XBee &parent, std::string type, struct xbee_conAddress *address = NULL)
-myConnection	odroid/src/xbee_org.cpp	/^class myConnection: public libxbee::ConCallback {$/;"	c	file:	inherits:libxbee::ConCallback
-myConnection::myConnection	odroid/src/xbee.cpp	/^		explicit myConnection(libxbee::XBee &parent, std::string type, struct xbee_conAddress *address = NULL): libxbee::ConCallback(parent, type, address) {};$/;"	f	class:myConnection	access:public	signature:(libxbee::XBee &parent, std::string type, struct xbee_conAddress *address = NULL)
-myConnection::myConnection	odroid/src/xbee_org.cpp	/^		explicit myConnection(libxbee::XBee &parent, std::string type, struct xbee_conAddress *address = NULL): libxbee::ConCallback(parent, type, address) {};$/;"	f	class:myConnection	access:public	signature:(libxbee::XBee &parent, std::string type, struct xbee_conAddress *address = NULL)
-myConnection::myData	odroid/src/xbee.cpp	/^		std::string myData;$/;"	m	class:myConnection	file:	access:public
-myConnection::myData	odroid/src/xbee_org.cpp	/^		std::string myData;$/;"	m	class:myConnection	file:	access:public
-myConnection::xbee_conCallback	odroid/src/xbee.cpp	/^		void xbee_conCallback(libxbee::Pkt **pkt);$/;"	p	class:myConnection	file:	access:public	signature:(libxbee::Pkt **pkt)
-myConnection::xbee_conCallback	odroid/src/xbee.cpp	/^void myConnection::xbee_conCallback(libxbee::Pkt **pkt) {$/;"	f	class:myConnection	signature:(libxbee::Pkt **pkt)
-myConnection::xbee_conCallback	odroid/src/xbee_org.cpp	/^		void xbee_conCallback(libxbee::Pkt **pkt);$/;"	p	class:myConnection	file:	access:public	signature:(libxbee::Pkt **pkt)
-myConnection::xbee_conCallback	odroid/src/xbee_org.cpp	/^void myConnection::xbee_conCallback(libxbee::Pkt **pkt) {$/;"	f	class:myConnection	signature:(libxbee::Pkt **pkt)
-myData	odroid/src/xbee.cpp	/^		std::string myData;$/;"	m	class:myConnection	file:	access:public
-myData	odroid/src/xbee.cpp	/^	std::cout << myData;$/;"	l
-myData	odroid/src/xbee_org.cpp	/^		std::string myData;$/;"	m	class:myConnection	file:	access:public
-myData	odroid/src/xbee_org.cpp	/^	std::cout << myData;$/;"	l
-pDataReceived	atxmega/src/atxmega.c	/^volatile char *pDataReceived = cDataWrite;$/;"	v
-pRead	odroid/src/libserial.cpp	/^		char cByte[128], cRead, *pRead = cByte;$/;"	l
-pkt	odroid/src/xbee.cpp	/^				std::cout << "  " << i << " " << pkt[i] << "\\n";$/;"	l
-pkt	odroid/src/xbee.cpp	/^		libxbee::Pkt pkt;$/;"	l
-pkt	odroid/src/xbee_org.cpp	/^				std::cout << "  " << i << " " << pkt[i] << "\\n";$/;"	l
-pkt	odroid/src/xbee_org.cpp	/^		libxbee::Pkt pkt;$/;"	l
-rightSonar	odroid/src/libserial.cpp	/^	int leftSonar,centerSonar,rightSonar;$/;"	l
-size	odroid/src/xbee.cpp	/^			std::cout << "Packet length: " << pkt.size() << "\\n";$/;"	p	file:	signature:()
-size	odroid/src/xbee_org.cpp	/^			std::cout << "Packet length: " << pkt.size() << "\\n";$/;"	p	file:	signature:()
-std::cerr	odroid/src/libserial.cpp	/^		std::cerr << "SerialStream broke, bye bye\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee.cpp	/^	std::cout << "Callback!!\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee.cpp	/^	std::cout << "Got the data\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee.cpp	/^	std::cout << "\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee_org.cpp	/^			std::cout << "Available connection types:\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee_org.cpp	/^			std::cout << "\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee_org.cpp	/^		std::cout << "Available libxbee modes:\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee_org.cpp	/^		std::cout << "\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee_org.cpp	/^	std::cout << "Callback!!\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee_org.cpp	/^	std::cout << "Got the data\\n";$/;"	m	class:std	file:
-std::cout	odroid/src/xbee_org.cpp	/^	std::cout << "\\n";$/;"	m	class:std	file:
-std::endl	odroid/src/libserial.cpp	/^		std::cerr << "Failed to Open " << *pDevice << std::endl;$/;"	m	class:std	file:
-std::endl	odroid/src/libserial.cpp	/^		std::cerr << "Failed to set BAUD_115200" << std::endl;$/;"	m	class:std	file:
-std::endl	odroid/src/libserial.cpp	/^		std::cerr << "Failed to set CHAR_SIZE_8" << std::endl;$/;"	m	class:std	file:
-std::endl	odroid/src/libserial.cpp	/^		std::cerr << "Failed to set PARITY_NONE" << std::endl;$/;"	m	class:std	file:
-std::endl	odroid/src/libserial.cpp	/^		std::cout << "Setup complete" << std::endl;$/;"	m	class:std	file:
-types	odroid/src/xbee_org.cpp	/^			std::list<std::string> types = xbee.getConTypes();$/;"	l
-xbee_conCallback	odroid/src/xbee.cpp	/^		void xbee_conCallback(libxbee::Pkt **pkt);$/;"	p	class:myConnection	file:	access:public	signature:(libxbee::Pkt **pkt)
-xbee_conCallback	odroid/src/xbee.cpp	/^void myConnection::xbee_conCallback(libxbee::Pkt **pkt) {$/;"	f	class:myConnection	signature:(libxbee::Pkt **pkt)
-xbee_conCallback	odroid/src/xbee_org.cpp	/^		void xbee_conCallback(libxbee::Pkt **pkt);$/;"	p	class:myConnection	file:	access:public	signature:(libxbee::Pkt **pkt)
-xbee_conCallback	odroid/src/xbee_org.cpp	/^void myConnection::xbee_conCallback(libxbee::Pkt **pkt) {$/;"	f	class:myConnection	signature:(libxbee::Pkt **pkt)
+ATXMEGA_H	./atxmega/include/atxmega.h	2;"	d
+BSCALE	./atxmega/src/uart.c	9;"	d	file:
+BSEL	./atxmega/src/uart.c	8;"	d	file:
+BufferToggle	./remote/src/Main.cpp	/^class BufferToggle$/;"	c	file:
+CHAR_SIZE	./odroid/include/Odroid.h	11;"	d
+Clk32MhzInit	./atxmega/src/sys_clk.c	/^void Clk32MhzInit()$/;"	f
+F_CPU	./atxmega/include/atxmega.h	10;"	d
+ISR	./atxmega/src/uart.c	/^ISR(USARTC1_RXC_vect)$/;"	f
+LOOP_FREQ_AU_MS	./odroid/src/Main.cpp	3;"	d	file:
+LOOP_FREQ_RM_MS	./odroid/src/Main.cpp	4;"	d	file:
+ODROID_H_	./odroid/include/Odroid.h	2;"	d
+ParseSerialDataRecvd	./odroid/src/Main.cpp	/^static int ParseSerialDataRecvd(const char *pData)$/;"	f	file:
+PrintMsg	./odroid/src/Main.cpp	/^int PrintMsg(const char *pMsg, const char *pThreadName)$/;"	f
+RET_SUCCESS	./odroid/include/SerialXmega.h	7;"	d
+SERIAL_XMEGA_H_	./odroid/include/SerialXmega.h	2;"	d
+SYS_CLK_H	./atxmega/include/sys_clk.h	2;"	d
+SerialCommunication	./odroid/src/SerialXmega.cpp	/^int SerialCommunication(LibSerial::SerialStream& S)$/;"	f
+SerialInit	./odroid/src/SerialXmega.cpp	/^int SerialInit(LibSerial::SerialStream& S, const char *pDevice)$/;"	f
+UARTInit	./atxmega/src/uart.c	/^void UARTInit()$/;"	f
+UARTTrans	./atxmega/src/uart.c	/^void UARTTrans(char cData)$/;"	f
+UART_H	./atxmega/include/uart.h	2;"	d
+WDTDisble	./atxmega/src/sys_clk.c	/^void WDTDisble()$/;"	f
+__AVR_ATxmega128A4U__	./atxmega/include/atxmega.h	6;"	d
+__OPTIMIZE__	./atxmega/include/atxmega.h	14;"	d
+cDataWrite	./atxmega/src/atxmega.c	/^volatile char cDataWrite[256];$/;"	v
+gbXbeeData	./odroid/src/Main.cpp	/^std::atomic_bool gbXbeeData;$/;"	v
+gbXmegaData	./odroid/src/Main.cpp	/^std::atomic_bool gbXmegaData;$/;"	v
+gcXbeeDataRx	./odroid/src/Main.cpp	/^char gcXbeeDataRx[CHAR_SIZE] = {0};$/;"	v
+gcXbeeDataTx	./odroid/src/Main.cpp	/^char gcXbeeDataTx[CHAR_SIZE] = {0};$/;"	v
+gcXmegaDataRx	./odroid/src/Main.cpp	/^char gcXmegaDataRx[CHAR_SIZE] = {0};$/;"	v
+gcXmegaDataTx	./odroid/src/Main.cpp	/^char gcXmegaDataTx[CHAR_SIZE] = {0};$/;"	v
+gui_running	./odroid/src/thread.cpp	/^std::atomic<bool> gui_running;$/;"	v
+gui_thread	./odroid/src/thread.cpp	/^void gui_thread()$/;"	f
+mMutex	./odroid/src/Main.cpp	/^std::mutex mMutex;$/;"	v
+main	./atxmega/src/atxmega.c	/^int main(void)$/;"	f
+main	./odroid/src/Main.cpp	/^int main ( int argc, char **argv ) $/;"	f
+main	./odroid/src/thread.cpp	/^int main()$/;"	f
+main	./remote/src/Main.cpp	/^int main(int argc, char **argv)$/;"	f
+message	./odroid/src/thread.cpp	/^void message()$/;"	f
+off	./remote/src/Main.cpp	/^        void off(void)$/;"	f	class:BufferToggle
+on	./remote/src/Main.cpp	/^        void on(void)$/;"	f	class:BufferToggle
+one_off	./odroid/src/thread.cpp	/^void one_off()$/;"	f
+pDataReceived	./atxmega/src/atxmega.c	/^volatile char *pDataReceived = cDataWrite;$/;"	v
+t	./remote/src/Main.cpp	/^        struct termios t;$/;"	m	class:BufferToggle	typeref:struct:BufferToggle::termios	file:
+tasks	./odroid/src/thread.cpp	/^std::deque<std::packaged_task<void()>> tasks;$/;"	v
+tasks_mutex	./odroid/src/thread.cpp	/^std::mutex tasks_mutex;$/;"	v

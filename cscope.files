@@ -4,6 +4,9 @@
 ./atxmega/include/sys_clk.h
 ./atxmega/include/uart.h
 ./atxmega/include/atxmega.h
-./odroid/src/xbee_org.cpp
-./odroid/src/xbee.cpp
-./odroid/src/libserial.cpp
+./odroid/src/SerialXmega.cpp
+./odroid/src/Main.cpp
+./odroid/src/thread.cpp
+./odroid/include/SerialXmega.h
+./odroid/include/Odroid.h
+./remote/src/Main.cpp
