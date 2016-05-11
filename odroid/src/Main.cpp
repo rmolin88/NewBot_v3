@@ -35,7 +35,6 @@ static int ParseSerialDataRecvd(const char *pData);
 // Odroid
 int main ( int argc, char **argv ) 
 {
-
 	if (argc < 3)
 	{
 		//TODO: 

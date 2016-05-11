@@ -1,10 +1,9 @@
 #include <iostream>
 #include <termios.h>
 #include <unistd.h>
+#include "../../odroid/include/SerialXmega.h"
 
-// E153 deck 7 - Reservation - 382530
-// june 25 - 27
-// me passport, resident and id
+#define DEVICE "/dev/ttyUSB0"
 
 class BufferToggle
 {
@@ -12,9 +11,7 @@ class BufferToggle
         struct termios t;
 
     public:
-        /*
-         * Disables buffered input
-         */
+        // Disables buffered input
         void off(void)
         {
             tcgetattr(STDIN_FILENO, &t); //get the current terminal I/O structure
@@ -22,9 +19,7 @@ class BufferToggle
 			tcsetattr(STDIN_FILENO, TCSANOW, &t); //Apply the new settings
         }
 
-        /*
-         * Enables buffered input
-         */
+        // Enables buffered input
         void on(void)
         {
             tcgetattr(STDIN_FILENO, &t); //get the current terminal I/O structure
@@ -35,8 +30,18 @@ class BufferToggle
 
 int main(int argc, char **argv)
 {
+	int k;
 	char cCh=0;
 	BufferToggle ToggleBuffer;
+	LibSerial::SerialStream lserialXbee;
+
+	if ((k = SerialInit(lserialXbee, DEVICE)) != RET_SUCCESS)
+	{
+		std::cout << "SerialInit() Error: " << k << " on device :" << DEVICE << '\n';
+		exit(EXIT_FAILURE);
+	}
+
+
 	ToggleBuffer.off();
 
 	while (cCh != 'q')
