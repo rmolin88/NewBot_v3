@@ -29,8 +29,8 @@ fi
 # git commit require
 if [ "$1" = g ]; then
 	if [ "$#" -ne 2 ]; then
-		printf "Surround git comment in quotes\n\
-			\ti.e: ./launch.sh g \"my comment\""
+		printf "Surround git comments in quotes\n\
+			\ti.e: ./launch.sh g \"my comment\"\n"
 		exit
 	fi
 	git add .
@@ -39,6 +39,7 @@ if [ "$1" = g ]; then
 	exit 0
 fi
 
+# TODO:Separate make and launch
 # make and launch atxmega code
 if [ "$1" = x -o "$1" = a ]; then
 	cd atxmega/build
@@ -54,14 +55,14 @@ if [ "$1" = o -o "$1" = a ]; then
 	cd odroid/build
 	make clean &&
 	make all && 
-	./io $2 $3
+	./odroid.out $2 $3
 fi
 # make and launch remote code
 if [ "$1" = r ]; then
 	cd remote/build
 	make clean &&
 	make all && 
-	./remote
+	./remote.out
 fi
 
 if [ "$1" = cx -o "$1" = ca ]; then

@@ -94,7 +94,7 @@ int main ( int argc, char **argv )
 		// wait to loop
 		// TODO: make this a function
 		diff = end - start;
-		while (diff.count() < LOOP_FREQ_MS)
+		while (diff.count() < LOOP_FREQ_AU_MS)
 		{
 			end = std::chrono::system_clock::now();
 			diff = end - start;
