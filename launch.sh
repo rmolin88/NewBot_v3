@@ -14,13 +14,28 @@ if [ $# -lt 1 ]; then
 		\t./launch.sh cx; for atxmega\n\
 		\t./launch.sh co; for odroid\n\
 		\t./launch.sh cr; for remote\n\
-		\t./lanuch.sh ca; for all\n"
+		\t./lanuch.sh ca; for all\n
+		To do a git commit\n\
+			\t./launch.sh g \"comment\"\n"
 	exit 8
 fi
 	 
 # prevents clock skew issues
 if [ "$1" = t ]; then
 	find -exec touch \{\} \;
+	exit 0
+fi
+
+# git commit require
+if [ "$1" = g ]; then
+	if [ "$#" -ne 2 ]; then
+		printf "Surround git comment in quotes\n\
+			\ti.e: ./launch.sh g \"my comment\""
+		exit
+	fi
+	git add .
+	git commit -m "$2"
+	git push origin master
 	exit 0
 fi
 
