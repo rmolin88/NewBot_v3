@@ -1,6 +1,7 @@
 # TODO: try to make a unique make file that launches after done
 CC = g++
-SRC = ../src/Main.cpp ../src/SerialXmega.cpp
+SRC = ../src/Main.cpp
+LIB = libuart.a
 OBJ = $(notdir $(SRC:.cpp=.o))
 CFLAGS =-std=c++14 -Wall -O3 -c
 LDFLAGS =-lserial -lpthread
@@ -10,7 +11,7 @@ all: $(EXE)
 $(EXE): $(OBJ)
 	$(CC) $^ -o $(EXE) $(LDFLAGS) 
 
-$(OBJ): $(SRC)
+$(OBJ): $(SRC) $(LIB)
 	$(CC) $(CFLAGS) $^ 
 
 clean:

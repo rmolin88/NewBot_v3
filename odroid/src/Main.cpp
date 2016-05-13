@@ -16,20 +16,6 @@
 // TODO: Push serial communication to its limits see how low you can get
 //
 
-char gcXmegaDataTx[CHAR_SIZE] = {0};
-char gcXmegaDataRx[CHAR_SIZE] = {0};
-char gcXbeeDataTx[CHAR_SIZE] = {0};
-char gcXbeeDataRx[CHAR_SIZE] = {0};
-
-// std::atomic_char gcXmegaDataTx[CHAR_SIZE] = {0};
-// std::atomic_char gcXmegaDataRx[CHAR_SIZE] = {0};
-// std::atomic_char gcXbeeDataTx[CHAR_SIZE] = {0};
-// std::atomic_char gcXbeeDataRx[CHAR_SIZE] = {0};
-
-std::atomic_bool gbXmegaData;
-std::atomic_bool gbXbeeData;
-std::mutex mMutex;
-
 static int ParseSerialDataRecvd(const char *pData);
 
 // Odroid
@@ -43,27 +29,27 @@ int main ( int argc, char **argv )
 	}
 	// TODO: strip xmega=
 	int k;
-	LibSerial::SerialStream lserialXmega, lserialXbee;
+	std::promise<char*> promiseXmegaRxData;
+	std::promise<char*> promiseXbeeRxData;
+	std::future<char*> futureXmegaRxData = promiseXmegaRxData.get_future();
+	std::future<char*> futureXbeeRxData = promiseXbeeRxData.get_future();
+	char cXmegaErr[128];
+	char cXbeeErr[128];
 
-	if ((k = SerialInit(lserialXmega, argv[1])) != RET_SUCCESS)
+	// int SerialInit(char*& pDevice, int iBaud, std::promise<char*>& promiseRxData, char*& pMsgErr)
+	if ((k = SerialInit(argv[1], BAUD, std::ref(promiseXmegaRxData), cXmegaErr)) != RET_SUCCESS)
 	{
 		std::cout << "SerialInit() Error: " << k << " on device :" << argv[1] << '\n';
 		exit(EXIT_FAILURE);
 	}
 
-	if ((k = SerialInit(lserialXbee, argv[2])) != RET_SUCCESS)
+	if ((k = SerialInit(argv[2], BAUD, std::ref(promiseXbeeRxData), cXbeeErr)) != RET_SUCCESS)
 	{
 		std::cout << "SerialInit() Error: " << k << " on device :" << argv[2] << '\n';
 		exit(EXIT_FAILURE);
 	}
 
 	PrintMsg("Serial Setup Complete", "Main Thread");
-
-	gbXmegaData = false;
-	gbXbeeData = false;
-	std::thread tSerialXmega(SerialCommunication, std::ref(lserialXmega));
-	// std::thread tSerialXbee(SerialInitXbee);
-	// std::thread tImageProcessing(InitCamera);
 
 	std::chrono::system_clock::time_point start;
 	std::chrono::system_clock::time_point end;
