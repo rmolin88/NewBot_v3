@@ -5,7 +5,7 @@
 
 static int SerialCommunication(LibSerial::SerialStream& S, std::promise<char*>& promiseRxData);
 
-static int SerialCommunication(LibSerial::SerialStream& S, std::promise<char*>& promiseRxData)
+static int SerialCommunication(LibSerial::SerialStream& S, std::function<int (char*)>& cbDataRcvd)
 {
 	try
 	{

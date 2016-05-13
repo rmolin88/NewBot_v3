@@ -11,6 +11,6 @@
 #define BAUD 115200
 
 int PrintMsg(const char *pMsg, const char *pThreadName);
-int SerialInit(char* pDevice, int iBaud, std::promise<char*>& promiseRxData, char* pMsgErr);
+int SerialInit(char* pDevice, int iBaud, std::function<int (char*)>& cbDataRcvd);
 
 #endif
