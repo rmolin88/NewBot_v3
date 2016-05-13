@@ -17,7 +17,7 @@
 //
 
 static int ParseSerialDataRecvd(const char *pData);
-
+static char cXmegaData[128];
 // Odroid
 int main ( int argc, char **argv ) 
 {
@@ -29,15 +29,12 @@ int main ( int argc, char **argv )
 	}
 	// TODO: strip xmega=
 	int k;
-	std::promise<char*> promiseXmegaRxData;
-	std::promise<char*> promiseXbeeRxData;
-	std::future<char*> futureXmegaRxData = promiseXmegaRxData.get_future();
-	std::future<char*> futureXbeeRxData = promiseXbeeRxData.get_future();
 	char cXmegaErr[128];
 	char cXbeeErr[128];
+	std::function<void (char*)> cbFunc = cbXmegaData;
 
-	// int SerialInit(char*& pDevice, int iBaud, std::promise<char*>& promiseRxData, char*& pMsgErr)
-	if ((k = SerialInit(argv[1], BAUD, std::ref(promiseXmegaRxData), cXmegaErr)) != RET_SUCCESS)
+	// int SerialInit(char* pDevice, int iBaud, std::function<int (char*)>& cbDataRcvd);
+	if ((k = SerialInit(argv[1], BAUD, &cbXmegaData, cXmegaErr)) != RET_SUCCESS)
 	{
 		std::cout << "SerialInit() Error: " << k << " on device :" << argv[1] << '\n';
 		exit(EXIT_FAILURE);
@@ -142,4 +139,11 @@ int PrintMsg(const char *pMsg, const char *pThreadName)
 		return -100;
 	}
 }
+
+void cbXmegaData(char *pData)
+{
+	std::strcpy(cXmegaData, pData);
+}
+
+
 

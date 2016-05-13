@@ -31,6 +31,7 @@ class BufferToggle
 int main(int argc, char **argv)
 {
 	int k;
+	laaksdfj
 	char cCh=0;
 	BufferToggle ToggleBuffer;
 	LibSerial::SerialStream lserialXbee;
