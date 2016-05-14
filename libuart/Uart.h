@@ -10,6 +10,6 @@
 
 #define RET_SUCCESS 0
 
-int SerialInit(char* pDevice, int iBaud, std::function<int (char*)>& cbDataRcvd, char *pMsgErr);
+int SerialInit(char* pDevice, int iBaud, std::function<void (char*)> cbDataRcvd, char *pMsgErr);
 
 #endif

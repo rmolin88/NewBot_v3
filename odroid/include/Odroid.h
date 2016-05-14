@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <chrono>
+#include <thread>
+#include <atomic>
+#include <cstring>
 #include <functional>
 
 #define CHAR_SIZE 32
@@ -10,7 +13,6 @@
 #define BAUD 115200
 
 int PrintMsg(const char *pMsg, const char *pThreadName);
-int SerialInit(char* pDevice, int iBaud, std::function<int (char*)>& cbDataRcvd, char *pMsgErr);
-void cbXmegaData(char *pData);
+int SerialInit(char* pDevice, int iBaud, std::function<void (char*)> cbDataRcvd, char *pMsgErr);
 
 #endif

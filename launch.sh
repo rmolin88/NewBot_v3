@@ -1,12 +1,11 @@
 #! /bin/bash
-
 if [ $# -lt 1 ]; then
-
 	printf "USAGE\n \
 		To launch the software use\n\
 		\t./launch.sh x; for atxmega\n\
 		\t./launch.sh o <arguments>; for odroid\n\
 		\t./launch.sh r <arguments>; for remote\n\
+		\t./lanuch.sh l; for libuart\n\
 		\t./lanuch.sh a <arguments>; for odroid and atxmega\n\
 		To fix clock skew\n\
 		\t./launch.sh t\n
@@ -50,13 +49,22 @@ if [ "$1" = x -o "$1" = a ]; then
 	sudo dfu-programmer atxmega128a4u start
 	cd ../..
 fi
-# make and launch odroid code
+# make libuart
+if [ "$1" = l -o "$1" = a ]; then
+	cd libuart
+	make clean &&
+	make all && 
+	cd ..
+fi
+# make and launch odroid code. Needs to be last one because launches odroid 
 if [ "$1" = o -o "$1" = a ]; then
 	cd odroid/build
 	make clean &&
 	make all && 
 	./odroid.out $2 $3
+	exit 0
 fi
+
 # make and launch remote code
 if [ "$1" = r ]; then
 	cd remote/build

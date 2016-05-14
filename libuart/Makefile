@@ -9,7 +9,6 @@ all: $(EXE)
 
 $(EXE): $(OBJ)
 	$(ARCHIVE) $(EXE) $(OBJ)
-	cp $(EXE) ../odroid/build
 
 $(OBJ): $(SRC)
 	$(CXX) $(CFLAGS) $^ $(LDFLAGS) 
