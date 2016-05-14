@@ -17,6 +17,7 @@
 //
 
 static int ParseSerialDataRecvd(const char *pData);
+static int cbXmega(const char *pData);
 
 // Odroid
 int main ( int argc, char **argv ) 
@@ -27,12 +28,12 @@ int main ( int argc, char **argv )
 		std::cout << "Bad Usage" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	// TODO: strip xmega=
+	// TODO: strip xmega= from input argv
 	int k;
-	std::promise<char*> promiseXmegaRxData;
-	std::promise<char*> promiseXbeeRxData;
-	std::future<char*> futureXmegaRxData = promiseXmegaRxData.get_future();
-	std::future<char*> futureXbeeRxData = promiseXbeeRxData.get_future();
+	// std::promise<char*> promiseXmegaRxData;
+	// std::promise<char*> promiseXbeeRxData;
+	// std::future<char*> futureXmegaRxData = promiseXmegaRxData.get_future();
+	// std::future<char*> futureXbeeRxData = promiseXbeeRxData.get_future();
 	char cXmegaErr[128];
 	char cXbeeErr[128];
 

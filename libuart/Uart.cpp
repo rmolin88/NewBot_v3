@@ -3,7 +3,7 @@
 // class with device and baud rate info 
 // and func for callback
 
-static int SerialCommunication(LibSerial::SerialStream& S, std::promise<char*>& promiseRxData);
+static int SerialCommunication(LibSerial::SerialStream& S, std::function<int (char*)>& cbDataRcvd);
 
 static int SerialCommunication(LibSerial::SerialStream& S, std::function<int (char*)>& cbDataRcvd)
 {
@@ -22,7 +22,7 @@ static int SerialCommunication(LibSerial::SerialStream& S, std::function<int (ch
 			}
 
 			if (*cRxData != '\0')
-				promiseRxData.set_value(cRxData);
+				cbDataRcvd(cRxData);
 			S.write("8", sizeof("8"));
 			usleep(80000); // 100ms 
 		}
@@ -36,7 +36,7 @@ static int SerialCommunication(LibSerial::SerialStream& S, std::function<int (ch
 	}
 }
 
-int SerialInit(char* pDevice, int iBaud, std::promise<char*>& promiseRxData, char* pMsgErr)
+int SerialInit(char* pDevice, int iBaud, std::function<int (char*)>& cbDataRcvd, char *pMsgErr)
 {
 	try
 	{
@@ -66,7 +66,7 @@ int SerialInit(char* pDevice, int iBaud, std::promise<char*>& promiseRxData, cha
 		// TODO: move this line to odroid.main()
 		// std::future<char*> futureRxData = promiseRxData.get_future();
 		if (S.IsOpen())
-			std::thread tSerial(SerialCommunication, std::ref(S), std::ref(promiseRxData));	
+			std::thread tSerial(SerialCommunication, std::ref(S), std::ref(cbDataRcvd));	
 		else
 		{
 			std::sprintf(pMsgErr, "Couldn't Open Device %s", pDevice);
