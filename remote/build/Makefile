@@ -3,12 +3,12 @@ CC = g++
 SRC = ../src/Main.cpp
 OBJ = $(notdir $(SRC:.cpp=.o))
 CFLAGS =-std=c++14 -Wall -O3 -c
-LDFLAGS =-L../../libuart -luart -lserial -pthread
-EXE = odroid.out
+LDFLAGS =-lserial -lpthread
+EXE = remote.out
 all: $(EXE)
 
 $(EXE): $(OBJ)
-	$(CC) $^ $(LDFLAGS) -o $(EXE)
+	$(CC) $^ -o $(EXE) $(LDFLAGS) 
 
 $(OBJ): $(SRC)
 	$(CC) $(CFLAGS) $^ 
