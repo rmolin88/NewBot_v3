@@ -5,6 +5,7 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
+#include <string>
 #include <cstring>
 #include <functional>
 
@@ -12,7 +13,7 @@
 #define RET_SUCCESS 0
 #define BAUD 115200
 
-int PrintMsg(const char *pMsg, const char *pThreadName);
-int SerialInit(char* pDevice, int iBaud, std::function<void (char*)> cbDataRcvd, char *pMsgErr);
+int PrintMsg(const std::string& sMsg, const std::string& sThreadName);
+int SerialInit(const std::string& sDevice, int iBaud, std::function<void (char*)> cbDataRcvd, std::string& sMsgErr);
 
 #endif

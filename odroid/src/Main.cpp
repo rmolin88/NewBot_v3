@@ -29,68 +29,82 @@ static std::atomic_flag lock = ATOMIC_FLAG_INIT;
 // Odroid
 int main ( int argc, char **argv ) 
 {
-	if (argc < 3)
+	try 
 	{
-		//TODO: 
-		std::cout << "Bad Usage" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	// TODO: strip xmega= from input argv
-	int k;
-	char cXmegaErr[128];
-	char cXbeeErr[128];
-	std::function<void (char*)> cbXmegaFunc = cbXmegaData;
-	std::function<void (char*)> cbXbeeFunc = cbXbeeData;
-
-	// int SerialInit(char* pDevice, int iBaud, std::function<int (char*)>& cbDataRcvd);
-	if ((k = SerialInit(argv[1], BAUD, cbXmegaData, cXmegaErr)) != RET_SUCCESS)
-	{
-		std::cout << "SerialInit() Error: " << k << " on device :" << argv[1] << '\n';
-		exit(EXIT_FAILURE);
-	}
-
-	if ((k = SerialInit(argv[2], BAUD, cbXbeeData, cXbeeErr)) != RET_SUCCESS)
-	{
-		std::cout << "SerialInit() Error: " << k << " on device :" << argv[2] << '\n';
-		exit(EXIT_FAILURE);
-	}
-
-	PrintMsg("Serial Setup Complete", "Main Thread");
-
-	std::chrono::system_clock::time_point start;
-	std::chrono::system_clock::time_point end;
-	std::chrono::duration<double, std::milli> diff;
-	gXmegaDataRdy = false;
-	gbXbeeDataRdy = false;
-
-	while (1) // Threads are alive
-	{
-		start = std::chrono::system_clock::now();
-		// if (gbXmegaData) // Do xmega processing
-		// {
-			// std::sprintf(buff,"Xmega Received: %s", gcXmegaDataRx);
-			// PrintMsg(buff , "Main Thread");
-			// // printf("%d %d\n", gcXmegaDataRx[0], gcXmegaDataRx[1]);
-			// gbXmegaData = false;
-		// }
-
-		// if (gbXbeeData) // Do xbee processing
-		// {
-			// std::sprintf(buff,"Xbee Received: %s", gcXbeeDataRx);
-			// PrintMsg(buff , "Main Thread");
-			// // printf("%d %d\n", gcXbeeDataRx[0], gcXbeeDataRx[1]);
-			// gbXbeeData = falsestd::ref(cbXmegaData);
-		// }
-
-		// wait to loop
-		// TODO: make this a function
-		diff = end - start;
-		while (diff.count() < LOOP_FREQ_AU_MS)
+		if (argc < 3)
 		{
-			end = std::chrono::system_clock::now();
-			diff = end - start;
-			std::this_thread::sleep_for((std::chrono::duration<int, std::milli>) 1);
+			//TODO: 
+			std::cout << "Bad Usage" << '\n';
+			exit(EXIT_FAILURE);
 		}
+		// TODO: strip xmega= from input argv
+		int k;
+		std::string sXmegaErr;
+		std::string sXbeeErr;
+		const std::string sXmegaDev(argv[1]);
+		const std::string sXbeeDev(argv[2]);
+		std::function<void (char*)> cbXmegaFunc = cbXmegaData;
+		std::function<void (char*)> cbXbeeFunc = cbXbeeData;
+
+		std::cout << "Initializing device: " << sXmegaDev << std::endl;
+
+		if ((k = SerialInit(sXmegaDev, BAUD, cbXmegaData, sXmegaErr)) != RET_SUCCESS)
+		{
+			std::cout << "SerialInit() Error: " << k << " " << sXmegaErr << " on device :" << argv[1] << '\n';
+			// exit(EXIT_FAILURE);
+		}
+
+		std::cout << "Device: " << argv[1] << "initialized" << std::endl;
+		std::cout << "Initializing device: " << argv[2] << std::endl;
+
+		// if ((k = SerialInit(sXbeeDev, BAUD, cbXbeeData, sXbeeErr)) != RET_SUCCESS)
+		// {
+			// std::cout << "SerialInit() Error: " << k << " on device :" << argv[2] << '\n';
+			// exit(EXIT_FAILURE);
+		// }
+
+		PrintMsg("Serial Setup Complete", "Main Thread");
+
+		std::chrono::system_clock::time_point start;
+		std::chrono::system_clock::time_point end;
+		std::chrono::duration<double, std::milli> diff;
+		gXmegaDataRdy = false;
+		gbXbeeDataRdy = false;
+
+		while (1) // Threads are alive
+		{
+			start = std::chrono::system_clock::now();
+			// if (gbXmegaData) // Do xmega processing
+			// {
+				// std::sprintf(buff,"Xmega Received: %s", gcXmegaDataRx);
+				// PrintMsg(buff , "Main Thread");
+				// // printf("%d %d\n", gcXmegaDataRx[0], gcXmegaDataRx[1]);
+				// gbXmegaData = false;
+			// }
+
+			// if (gbXbeeData) // Do xbee processing
+			// {
+				// std::sprintf(buff,"Xbee Received: %s", gcXbeeDataRx);
+				// PrintMsg(buff , "Main Thread");
+				// // printf("%d %d\n", gcXbeeDataRx[0], gcXbeeDataRx[1]);
+				// gbXbeeData = falsestd::ref(cbXmegaData);
+			// }
+
+			// wait to loop
+			// TODO: make this a function
+			diff = end - start;
+			while (diff.count() < LOOP_FREQ_AU_MS)
+			{
+				end = std::chrono::system_clock::now();
+				diff = end - start;
+				std::this_thread::sleep_for((std::chrono::duration<int, std::milli>) 1);
+			}
+		}
+	}
+	catch(std::exception e)
+	{
+		std::cout << "Main() Exception: " << e.what() << "\n";
+		return -100;
 	}
 }
 
@@ -131,16 +145,13 @@ static int ParseSerialDataRecvd(const char *pData)
 	return RET_SUCCESS;
 }
 
-int PrintMsg(const char *pMsg, const char *pThreadName)
+int PrintMsg(const std::string& sMsg, const std::string& sThreadName)
 {
 	try
 	{
-		if ((!pMsg) || (!pThreadName))
-			return -1;
-
 		while (lock.test_and_set(std::memory_order_acquire))  // acquire lock
 			; // spin
-		std::cout << pThreadName << " says: " << pMsg << '\n';
+		std::cout << sThreadName << " says: " << sMsg << '\n';
 		lock.clear(std::memory_order_release);               // release lock
 		return RET_SUCCESS;
 	}
@@ -153,6 +164,7 @@ int PrintMsg(const char *pMsg, const char *pThreadName)
 
 void cbXmegaData(char *pData)
 {
+	while (lock.test_and_set());
 	std::strcpy(gcXmegaData, pData);
 	gXmegaDataRdy = true;
 }

@@ -1,0 +1,48 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ATXMEGA_H	./atxmega/include/atxmega.h	2;"	d
+BAUD	./odroid/include/Odroid.h	13;"	d
+BSCALE	./atxmega/src/uart.c	9;"	d	file:
+BSEL	./atxmega/src/uart.c	8;"	d	file:
+BufferToggle	./remote/src/Main.cpp	/^class BufferToggle$/;"	c	file:
+CHAR_SIZE	./odroid/include/Odroid.h	11;"	d
+Clk32MhzInit	./atxmega/src/sys_clk.c	/^void Clk32MhzInit()$/;"	f
+DEVICE	./remote/src/Main.cpp	6;"	d	file:
+F_CPU	./atxmega/include/atxmega.h	10;"	d
+ISR	./atxmega/src/uart.c	/^ISR(USARTC1_RXC_vect)$/;"	f
+LOOP_FREQ_AU_MS	./odroid/src/Main.cpp	3;"	d	file:
+LOOP_FREQ_RM_MS	./odroid/src/Main.cpp	4;"	d	file:
+ODROID_H_	./odroid/include/Odroid.h	2;"	d
+ParseSerialDataRecvd	./odroid/src/Main.cpp	/^static int ParseSerialDataRecvd(const char *pData)$/;"	f	file:
+PrintMsg	./odroid/src/Main.cpp	/^int PrintMsg(const char *pMsg, const char *pThreadName)$/;"	f
+RET_SUCCESS	./libuart/Uart.h	11;"	d
+RET_SUCCESS	./odroid/include/Odroid.h	12;"	d
+SERIAL_XMEGA_H_	./libuart/Uart.h	2;"	d
+SYS_CLK_H	./atxmega/include/sys_clk.h	2;"	d
+SerialCommunication	./libuart/Uart.cpp	/^static int SerialCommunication(LibSerial::SerialStream& S, std::function<void (char*)> cbDataRcvd)$/;"	f	file:
+SerialInit	./libuart/Uart.cpp	/^int SerialInit(char* pDevice, int iBaud, std::function<void (char*)> cbDataRcvd, char *pMsgErr)$/;"	f
+UARTInit	./atxmega/src/uart.c	/^void UARTInit()$/;"	f
+UARTTrans	./atxmega/src/uart.c	/^void UARTTrans(char cData)$/;"	f
+UART_H	./atxmega/include/uart.h	2;"	d
+WDTDisble	./atxmega/src/sys_clk.c	/^void WDTDisble()$/;"	f
+__AVR_ATxmega128A4U__	./atxmega/include/atxmega.h	6;"	d
+__OPTIMIZE__	./atxmega/include/atxmega.h	14;"	d
+cDataWrite	./atxmega/src/atxmega.c	/^volatile char cDataWrite[256];$/;"	v
+cbXbeeData	./odroid/src/Main.cpp	/^void cbXbeeData(char *pData)$/;"	f
+cbXmegaData	./odroid/src/Main.cpp	/^void cbXmegaData(char *pData)$/;"	f
+gXmegaDataRdy	./odroid/src/Main.cpp	/^static bool gXmegaDataRdy;$/;"	v	file:
+gbXbeeDataRdy	./odroid/src/Main.cpp	/^static bool gbXbeeDataRdy;$/;"	v	file:
+gcXbeeData	./odroid/src/Main.cpp	/^static char gcXbeeData[128];$/;"	v	file:
+gcXmegaData	./odroid/src/Main.cpp	/^static char gcXmegaData[128];$/;"	v	file:
+lock	./odroid/src/Main.cpp	/^static std::atomic_flag lock = ATOMIC_FLAG_INIT;$/;"	v	file:
+main	./atxmega/src/atxmega.c	/^int main(void)$/;"	f
+main	./odroid/src/Main.cpp	/^int main ( int argc, char **argv ) $/;"	f
+main	./remote/src/Main.cpp	/^int main(int argc, char **argv)$/;"	f
+off	./remote/src/Main.cpp	/^        void off(void)$/;"	f	class:BufferToggle
+on	./remote/src/Main.cpp	/^        void on(void)$/;"	f	class:BufferToggle
+pDataReceived	./atxmega/src/atxmega.c	/^volatile char *pDataReceived = cDataWrite;$/;"	v
+t	./remote/src/Main.cpp	/^        struct termios t;$/;"	m	class:BufferToggle	typeref:struct:BufferToggle::termios	file:

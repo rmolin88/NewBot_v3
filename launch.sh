@@ -62,7 +62,6 @@ if [ "$1" = o -o "$1" = a ]; then
 	make clean &&
 	make all && 
 	./odroid.out $2 $3
-	exit 0
 fi
 
 # make and launch remote code

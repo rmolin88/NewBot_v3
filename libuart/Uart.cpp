@@ -3,12 +3,12 @@
 // class with device and baud rate info 
 // and func for callback
 
-static int SerialCommunication(LibSerial::SerialStream& S, std::function<void (char*)> cbDataRcvd);
 
-static int SerialCommunication(LibSerial::SerialStream& S, std::function<void (char*)> cbDataRcvd)
+int SerialCommunication(LibSerial::SerialStream& S, std::function<void (char*)> cbDataRcvd)
 {
 	try
 	{
+		std::cout << "WE GET HERE" << std::endl;
 		char cRxData[128], *pch = cRxData;
 		while(S.good())
 		{
@@ -23,7 +23,7 @@ static int SerialCommunication(LibSerial::SerialStream& S, std::function<void (c
 
 			if (*cRxData != '\0')
 				cbDataRcvd(cRxData);
-			S.write("8", sizeof("8"));
+			// S.write("8", sizeof("8"));
 			usleep(80000); // 100ms 
 		}
 		std::cerr << "SerialStream broke, bye bye\n";
@@ -34,12 +34,23 @@ static int SerialCommunication(LibSerial::SerialStream& S, std::function<void (c
 		std::cout << "Exception@ SerialCommunication(): " << e.what() << '\n';
 		return -100;
 	}
+	catch(...)
+	{
+		std::cout << "Exception@ SerialCommunication()"<< '\n';
+		return -101;
+	}
 }
 
-int SerialInit(char* pDevice, int iBaud, std::function<void (char*)> cbDataRcvd, char *pMsgErr)
+int SerialInit(char* pDevice, int iBaud, std::function<void (char*)> cbDataRcvd, std::string& sMsgErr)
 {
 	try
 	{
+		if (!pDevice)
+		{
+			sMsgErr = "Device is empty";
+			return -1; 
+		}
+
 		LibSerial::SerialStreamBuf::BaudRateEnum eBaud;
 
 		switch (iBaud) 
@@ -57,19 +68,17 @@ int SerialInit(char* pDevice, int iBaud, std::function<void (char*)> cbDataRcvd,
 				eBaud = LibSerial::SerialStreamBuf::BAUD_115200;
 				break;
 			default:
-				std::sprintf(pMsgErr, "Wrong BaudRate selected");
+				sMsgErr = "Wrong BaudRate selected";
 				return -2;
 		}
 
 		LibSerial::SerialStream S(pDevice, eBaud);
 
-		// TODO: move this line to odroid.main()
-		// std::future<char*> futureRxData = promiseRxData.get_future();
-		if (S.IsOpen())
-			std::thread tSerial(SerialCommunication, std::ref(S), cbDataRcvd);	
-		else
+		if (!S.IsOpen())
 		{
-			std::sprintf(pMsgErr, "Couldn't Open Device %s", pDevice);
+			sMsgErr.append("Couldn't Open Device ").append(pDevice).append(" with Baudrate ");
+			sMsgErr += iBaud;
+			std::cout << sMsgErr << '\n';
 			return -3;
 		}
 
@@ -80,5 +89,20 @@ int SerialInit(char* pDevice, int iBaud, std::function<void (char*)> cbDataRcvd,
 		std::cout << "Exception@ SerialInit(): " << e.what() << '\n';
 		return -100;
 	}
+	catch(...)
+	{
+		std::cout << "Exception@ SerialInit()"<< '\n';
+		return -101;
+	}
 }
 
+class CustSerial {
+	
+	public:
+		char* pDevice;
+		int iBaudRate;
+		CustSerial();
+};
+CustSerial::CustSerial() {
+	
+}

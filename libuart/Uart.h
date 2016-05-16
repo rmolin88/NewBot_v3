@@ -3,13 +3,13 @@
 
 #include <iomanip>
 #include <iostream>
+#include <string>
 #include <cstring>
-#include <thread>
-#include <future>
 #include <SerialStream.h>
 
 #define RET_SUCCESS 0
 
-int SerialInit(char* pDevice, int iBaud, std::function<void (char*)> cbDataRcvd, char *pMsgErr);
+int SerialInit(const char* Device, int iBaud, std::function<void (char*)> cbDataRcvd, std::string& sMsgErr);
+int SerialCommunication(LibSerial::SerialStream& S, std::function<void (char*)> cbDataRcvd);
 
 #endif
