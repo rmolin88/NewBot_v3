@@ -53,27 +53,22 @@ int main ( int argc, char **argv )
 
 		PrintMsg("Serial Setup Complete", "Main Thread");
 
-		// commence the threads
-
 		std::chrono::system_clock::time_point start;
 		std::chrono::system_clock::time_point end;
 		std::chrono::duration<double, std::milli> diff;
 		char cXmegaData[128];
 		char cXbeeData[128];
 		char buff[128];
-		// int SerialCommunication(LibSerial::SerialStream& S, std::atomic_bool& atomicDataRdy, char* pData)
 
 		std::thread threadXmegaSerial(SerialCommunication, std::ref(XmegaSerial), std::ref(atomicXmegaRdy), cXmegaData);
 
 		while (1) // Threads are alive
 		{
 			start = std::chrono::system_clock::now();
-			while (!atomicXmegaRdy.is_lock_free()); // wait for the atomic to be lock free
 			if (atomicXmegaRdy.load(std::memory_order_acquire)) // check the data rdy flag 
 			{
 				std::sprintf(buff,"Xmega Received: %s", cXmegaData);
 				PrintMsg(buff , "Main Thread");
-				while (!atomicXmegaRdy.is_lock_free()); // wait for the atomic to be lock free
 				atomicXmegaRdy.store(false, std::memory_order_release); // set the data rdy flag 
 			}
 

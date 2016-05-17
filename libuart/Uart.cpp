@@ -23,7 +23,6 @@ int SerialCommunication(LibSerial::SerialStream& S, std::atomic_bool& atomicData
 			if (*cRxData != '\0')
 			{
 				std::strcpy(pData,cRxData);
-				while (!atomicDataRdy.is_lock_free()); // wait for the atomic to be lock free
 				atomicDataRdy.store(true, std::memory_order_release); // set the data rdy flag 
 			}
 			S.write("Hello World", sizeof("Hello World"));
