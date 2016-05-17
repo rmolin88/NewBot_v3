@@ -7,13 +7,13 @@
 #include <atomic>
 #include <string>
 #include <cstring>
-#include <functional>
+#include <SerialStream.h>
 
 #define CHAR_SIZE 32
 #define RET_SUCCESS 0
 #define BAUD 115200
 
 int PrintMsg(const std::string& sMsg, const std::string& sThreadName);
-int SerialInit(const std::string& sDevice, int iBaud, std::function<void (char*)> cbDataRcvd, std::string& sMsgErr);
+int SerialCommunication(LibSerial::SerialStream& S, std::atomic_bool& atomicDataRdy, char* pData);
 
 #endif

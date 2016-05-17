@@ -17,13 +17,6 @@
 //
 
 static int ParseSerialDataRecvd(const char *pData);
-static void cbXmegaData(char *pData);
-static void cbXbeeData(char *pData);
-static char gcXmegaData[128];
-static bool gXmegaDataRdy;
-static char gcXbeeData[128];
-static bool gbXbeeDataRdy;
-
 static std::atomic_flag lock = ATOMIC_FLAG_INIT;
 
 // Odroid
@@ -38,57 +31,51 @@ int main ( int argc, char **argv )
 			exit(EXIT_FAILURE);
 		}
 		// TODO: strip xmega= from input argv
-		int k;
 		std::string sXmegaErr;
 		std::string sXbeeErr;
-		const std::string sXmegaDev(argv[1]);
-		const std::string sXbeeDev(argv[2]);
-		std::function<void (char*)> cbXmegaFunc = cbXmegaData;
-		std::function<void (char*)> cbXbeeFunc = cbXbeeData;
+		std::atomic_bool atomicXmegaRdy(false);
 
-		std::cout << "Initializing device: " << sXmegaDev << std::endl;
-
-		if ((k = SerialInit(sXmegaDev, BAUD, cbXmegaData, sXmegaErr)) != RET_SUCCESS)
+		std::cout << "Initializing device: " << argv[1] << std::endl;
+		LibSerial::SerialStream XmegaSerial(argv[1], LibSerial::SerialStreamBuf::BAUD_115200);
+		if (!XmegaSerial.IsOpen())
 		{
-			std::cout << "SerialInit() Error: " << k << " " << sXmegaErr << " on device :" << argv[1] << '\n';
-			// exit(EXIT_FAILURE);
+			std::cout << "SerialInit() failed on device :" << argv[1] << '\n';
+			exit(EXIT_FAILURE);
 		}
 
-		std::cout << "Device: " << argv[1] << "initialized" << std::endl;
 		std::cout << "Initializing device: " << argv[2] << std::endl;
-
-		// if ((k = SerialInit(sXbeeDev, BAUD, cbXbeeData, sXbeeErr)) != RET_SUCCESS)
-		// {
-			// std::cout << "SerialInit() Error: " << k << " on device :" << argv[2] << '\n';
-			// exit(EXIT_FAILURE);
-		// }
+		LibSerial::SerialStream XbeeSerial(argv[2], LibSerial::SerialStreamBuf::BAUD_115200);
+		if (!XbeeSerial.IsOpen())
+		{
+			std::cout << "SerialInit() failed on device :" << argv[2] << '\n';
+			exit(EXIT_FAILURE);
+		}
 
 		PrintMsg("Serial Setup Complete", "Main Thread");
+
+		// commence the threads
 
 		std::chrono::system_clock::time_point start;
 		std::chrono::system_clock::time_point end;
 		std::chrono::duration<double, std::milli> diff;
-		gXmegaDataRdy = false;
-		gbXbeeDataRdy = false;
+		char cXmegaData[128];
+		char cXbeeData[128];
+		char buff[128];
+		// int SerialCommunication(LibSerial::SerialStream& S, std::atomic_bool& atomicDataRdy, char* pData)
+
+		std::thread threadXmegaSerial(SerialCommunication, std::ref(XmegaSerial), std::ref(atomicXmegaRdy), cXmegaData);
 
 		while (1) // Threads are alive
 		{
 			start = std::chrono::system_clock::now();
-			// if (gbXmegaData) // Do xmega processing
-			// {
-				// std::sprintf(buff,"Xmega Received: %s", gcXmegaDataRx);
-				// PrintMsg(buff , "Main Thread");
-				// // printf("%d %d\n", gcXmegaDataRx[0], gcXmegaDataRx[1]);
-				// gbXmegaData = false;
-			// }
-
-			// if (gbXbeeData) // Do xbee processing
-			// {
-				// std::sprintf(buff,"Xbee Received: %s", gcXbeeDataRx);
-				// PrintMsg(buff , "Main Thread");
-				// // printf("%d %d\n", gcXbeeDataRx[0], gcXbeeDataRx[1]);
-				// gbXbeeData = falsestd::ref(cbXmegaData);
-			// }
+			while (!atomicXmegaRdy.is_lock_free()); // wait for the atomic to be lock free
+			if (atomicXmegaRdy.load(std::memory_order_acquire)) // check the data rdy flag 
+			{
+				std::sprintf(buff,"Xmega Received: %s", cXmegaData);
+				PrintMsg(buff , "Main Thread");
+				while (!atomicXmegaRdy.is_lock_free()); // wait for the atomic to be lock free
+				atomicXmegaRdy.store(false, std::memory_order_release); // set the data rdy flag 
+			}
 
 			// wait to loop
 			// TODO: make this a function
@@ -160,19 +147,6 @@ int PrintMsg(const std::string& sMsg, const std::string& sThreadName)
 		std::cout << "PrintMsg() Exception: " << e.what() << "\n";
 		return -100;
 	}
-}
-
-void cbXmegaData(char *pData)
-{
-	while (lock.test_and_set());
-	std::strcpy(gcXmegaData, pData);
-	gXmegaDataRdy = true;
-}
-
-void cbXbeeData(char *pData)
-{
-	std::strcpy(gcXbeeData, pData);
-	gbXbeeDataRdy = true;
 }
 
 
