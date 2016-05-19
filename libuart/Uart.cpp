@@ -4,42 +4,43 @@
 // and func for callback
 
 
-int SerialCommunication(LibSerial::SerialStream& S, std::atomic_bool& atomicDataRdy, char* pData)
+void CustSerial::SerialCommunication()
 {
 	try
 	{
-		char cRxData[128], *pch = cRxData;
-		while(S.good())
+		int k=0, k1=0;
+		char cRxData[32] = {0}; // undefined behavior if you ever receive data larger than 32 
+		char cTxData[] = "S100010001000";
+		while((SerialLib.good()) && (!bThreadStop))
 		{
-			pch = cRxData; // Reset the data 
-			std::memset(pch, '\0', sizeof(cRxData)); 
-
-			while (S.rdbuf()->in_avail()) 
-			{
-				S.get(*pch);		
-				pch++;
-			}
+			while (SerialLib.rdbuf()->in_avail()) 
+				SerialLib.get(cRxData[k++]);		
 
 			if (*cRxData != '\0')
-			{
-				std::strcpy(pData,cRxData);
-				atomicDataRdy.store(true, std::memory_order_release); // set the data rdy flag 
+			{ // notify main thread that we got data 
+				std::cout << "Received " << cRxData << '\n';
+
+				*cRxData = '\0'; // Reset the data 
+				k=0;
 			}
-			S.write("Hello World", sizeof("Hello World"));
-			usleep(80000); // 100ms 
+			while (k1 < 14)
+				SerialLib.put(cTxData[k1++]);
+			k1 = 0;
+			std::this_thread::sleep_for((std::chrono::milliseconds) 10); 
 		}
-		std::cerr << "SerialStream broke, bye bye\n";
-		return 8;
+		if (!SerialLib.good())
+			std::cerr << "SerialStream broke, bye bye\n";
+		else
+			std::cerr << "Thread Stopped, bye bye\n";
+
 	}
 	catch(std::exception e)
 	{
 		std::cout << "Exception@ SerialCommunication(): " << e.what() << '\n';
-		return -100;
 	}
 	catch(...)
 	{
 		std::cout << "Exception@ SerialCommunication()"<< '\n';
-		return -101;
 	}
 }
 

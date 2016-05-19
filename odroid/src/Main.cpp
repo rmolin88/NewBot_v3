@@ -31,47 +31,19 @@ int main ( int argc, char **argv )
 			exit(EXIT_FAILURE);
 		}
 		// TODO: strip xmega= from input argv
-		std::string sXmegaErr;
-		std::string sXbeeErr;
-		std::atomic_bool atomicXmegaRdy(false);
-
-		std::cout << "Initializing device: " << argv[1] << std::endl;
-		LibSerial::SerialStream XmegaSerial(argv[1], LibSerial::SerialStreamBuf::BAUD_115200);
-		if (!XmegaSerial.IsOpen())
-		{
-			std::cout << "SerialInit() failed on device :" << argv[1] << '\n';
-			exit(EXIT_FAILURE);
-		}
-
-		std::cout << "Initializing device: " << argv[2] << std::endl;
-		LibSerial::SerialStream XbeeSerial(argv[2], LibSerial::SerialStreamBuf::BAUD_115200);
-		if (!XbeeSerial.IsOpen())
-		{
-			std::cout << "SerialInit() failed on device :" << argv[2] << '\n';
-			exit(EXIT_FAILURE);
-		}
+		CustSerial Xmega(argv[1], BAUD);
 
 		PrintMsg("Serial Setup Complete", "Main Thread");
 
 		std::chrono::system_clock::time_point start;
 		std::chrono::system_clock::time_point end;
 		std::chrono::duration<double, std::milli> diff;
-		char cXmegaData[128];
-		char cXbeeData[128];
-		char buff[128];
-
-		std::thread threadXmegaSerial(SerialCommunication, std::ref(XmegaSerial), std::ref(atomicXmegaRdy), cXmegaData);
+		int k=0;
 
 		while (1) // Threads are alive
 		{
 			start = std::chrono::system_clock::now();
-			if (atomicXmegaRdy.load(std::memory_order_acquire)) // check the data rdy flag 
-			{
-				std::sprintf(buff,"Xmega Received: %s", cXmegaData);
-				PrintMsg(buff , "Main Thread");
-				atomicXmegaRdy.store(false, std::memory_order_release); // set the data rdy flag 
-			}
-
+			PrintMsg("Looping", "Main Thread");
 			// wait to loop
 			// TODO: make this a function
 			diff = end - start;
@@ -80,6 +52,17 @@ int main ( int argc, char **argv )
 				end = std::chrono::system_clock::now();
 				diff = end - start;
 				std::this_thread::sleep_for((std::chrono::duration<int, std::milli>) 1);
+			}
+			if (k == 150)
+			{
+				PrintMsg("Stopped Program", "Main Thread");
+				Xmega.bThreadStop = true;
+				break;
+			}
+			else
+			{
+				// std::cout << k << '\n';
+				k++;
 			}
 		}
 	}
