@@ -43,7 +43,7 @@ int main ( int argc, char **argv )
 		while (1) // Threads are alive
 		{
 			start = std::chrono::system_clock::now();
-			PrintMsg("Looping", "Main Thread");
+			// PrintMsg("Looping", "Main Thread");
 			// wait to loop
 			// TODO: make this a function
 			diff = end - start;

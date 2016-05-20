@@ -1,7 +1,7 @@
-#include "../include/atxmega.h"
+#include "../include/uart.h"
 
-extern char volatile *pDataReceived;
-extern volatile char cDataWrite[256];
+extern volatile uint8_t bRxFlag;
+extern volatile char cRxData;
 
 void UARTInit()
 {
@@ -38,14 +38,8 @@ ISR(USARTC1_RXC_vect)
 {
 	while(!(USARTC1_STATUS & USART_RXCIF_bm))  // Wait for the Receive Complete Interrupt Flag
 		_NOP(); 								// to be set 
-	cDataWrite[0] = USARTC1_DATA; 				// Load the data  
-
-	// Send back what you receive
-	while(!(USARTC1_STATUS & USART_DREIF_bm))  // Wait for the Data Register Empty 
-		_NOP();							// Flag to be set
-	USARTC1_DATA = cDataWrite[0]; 				// Copy data
-
-	PORTE.OUTTGL |= PIN1_bm; 				// Signal transmittion 
+	cRxData = USARTC1_DATA; 				// Load the data  
+	bRxFlag = 1;
 }
 
 
@@ -53,7 +47,5 @@ void UARTTrans(char cData)
 {
 	while(!(USARTC1_STATUS & USART_DREIF_bm))  // Wait for the Data Register Empty 
 		_NOP();							// Flag to be set
-
 	USARTC1_DATA = cData; 				// Copy data
-	PORTE.OUTTGL |= PIN1_bm; 				// Signal transmittion 
 }

@@ -11,24 +11,32 @@ void CustSerial::SerialCommunication()
 		int k=0, k1=0;
 		char cRxData[32] = {0}; // undefined behavior if you ever receive data larger than 32 
 		char cTxData[] = "S100010001000\\";
+		int iTxDataSize = sizeof(cTxData);
+
 		while((SerialLib.good()) && (!bThreadStop))
-		{
+		{  
 			while (SerialLib.rdbuf()->in_avail()) 
-				SerialLib.get(cRxData[k++]);		
+				SerialLib.get(cRxData[k++]);		 // store data if available 
 
-			if (*cRxData != '\0')
+			if (*cRxData != '\0') // if we received some data 
 			{ // notify main thread that we got data 
-				std::cout << "Received " << cRxData << '\n';
-
+				std::cout << "Received " << cRxData << '\n'; // do something
+				// with this data 
 				*cRxData = '\0'; // Reset the data 
-				k=0;
 			}
-			while (k1 < 14)
-				SerialLib.put(cTxData[k1++]);
-			// SerialLib.write(cTxData, sizeof(cTxData));
-			// SerialLib.put('\0');
-			k1 = 0;
-			std::this_thread::sleep_for((std::chrono::milliseconds) 1000); 
+
+			// while (k1 < iTxDataSize) // send data 
+				// SerialLib.put(cTxData[k1++]);
+			// SerialLib.write(cTxData, iTxDataSize);
+			SerialLib << 'S';
+			SerialLib << 1000;
+			SerialLib << 1000;
+			SerialLib << 1000;
+			SerialLib << '\0';
+
+			k1 = k = 0; // Reset iterators 
+			// sleep for now 
+			std::this_thread::sleep_for((std::chrono::milliseconds) 100); 
 		}
 		if (!SerialLib.good())
 			std::cerr << "SerialStream broke, bye bye\n";
