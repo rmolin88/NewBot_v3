@@ -10,7 +10,7 @@ void CustSerial::SerialCommunication()
 	{
 		int k=0, k1=0;
 		char cRxData[32] = {0}; // undefined behavior if you ever receive data larger than 32 
-		char cTxData[] = "S100010001000";
+		char cTxData[] = "S100010001000\\";
 		while((SerialLib.good()) && (!bThreadStop))
 		{
 			while (SerialLib.rdbuf()->in_avail()) 
@@ -25,14 +25,15 @@ void CustSerial::SerialCommunication()
 			}
 			while (k1 < 14)
 				SerialLib.put(cTxData[k1++]);
+			// SerialLib.write(cTxData, sizeof(cTxData));
+			// SerialLib.put('\0');
 			k1 = 0;
-			std::this_thread::sleep_for((std::chrono::milliseconds) 10); 
+			std::this_thread::sleep_for((std::chrono::milliseconds) 1000); 
 		}
 		if (!SerialLib.good())
 			std::cerr << "SerialStream broke, bye bye\n";
 		else
 			std::cerr << "Thread Stopped, bye bye\n";
-
 	}
 	catch(std::exception e)
 	{

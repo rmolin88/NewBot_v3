@@ -15,8 +15,6 @@
 #endif
 
 #include <avr/io.h>
-//#  include <avr/iox128a4u.h> // for reading the file purposes 
-//#  include <util/setbaud.h> // for reading the file purposes 
 #include <avr/interrupt.h>
 #include <avr/cpufunc.h> // for _NOP 
 #include <util/delay.h> // for _delay_ms 

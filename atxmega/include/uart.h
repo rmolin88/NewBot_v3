@@ -3,7 +3,7 @@
 
 //#include "atxmega.h"
 
-void UARTTransmit(char trans);
+void UARTTrans(char cData);
 void UARTInit(void);
 
 #endif // UART_H
