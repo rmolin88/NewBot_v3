@@ -10,7 +10,7 @@ void CustSerial::SerialCommunication()
 	{
 		int k=0, k1=0;
 		char cRxData[32] = {0}; // undefined behavior if you ever receive data larger than 32 
-		char cTxData[] = "S100010001000\\";
+		char cTxData[] = "S100010001000";
 		int iTxDataSize = sizeof(cTxData);
 
 		while((SerialLib.good()) && (!bThreadStop))
@@ -25,14 +25,17 @@ void CustSerial::SerialCommunication()
 				*cRxData = '\0'; // Reset the data 
 			}
 
-			// while (k1 < iTxDataSize) // send data 
-				// SerialLib.put(cTxData[k1++]);
+			while (k1 < iTxDataSize) // send data 
+			{
+				SerialLib.put(cTxData[k1++]); // give the buffer some time
+				// std::this_thread::sleep_for((std::chrono::nanoseconds) 488); 
+			}
 			// SerialLib.write(cTxData, iTxDataSize);
-			SerialLib << 'S';
-			SerialLib << 1000;
-			SerialLib << 1000;
-			SerialLib << 1000;
-			SerialLib << '\0';
+			// SerialLib << 'S';
+			// SerialLib << 1000;
+			// SerialLib << 1000;
+			// SerialLib << 1000;
+			// SerialLib << '\\';
 
 			k1 = k = 0; // Reset iterators 
 			// sleep for now 

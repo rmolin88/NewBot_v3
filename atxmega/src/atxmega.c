@@ -1,7 +1,9 @@
 #include "../include/atxmega.h"
 
+#define BUFFER_SIZE 64
+#define MSG_LENGTH 14 // S100010001000 + EOT
+
 volatile uint8_t bRxFlag;
-volatile char cRxData;
 
 int main(void)
 {
@@ -9,42 +11,46 @@ int main(void)
 	WDTDisble();
 	UARTInit();
 
-	cRxData = bRxFlag = 0; // Clearing globals 
+	bRxFlag = 0; // Clearing globals 
+
+	char buffer[BUFFER_SIZE] = {0};
+	rb_attr_t attr = 
+	{
+		sizeof(char),
+		BUFFER_SIZE,
+		buffer
+	};
+
+	if (ring_buffer_init(&attr) != 0)
+		while(1); // LED would not light if cant start buffer
 
 	PMIC_CTRL |= PMIC_LOLVLEX_bm;  // Enable low level interrupts
 	sei(); // Enable Global Interrupts
 
 	PORTE.DIR |= PIN1_bm;  // On board LED = E1
+	PORTE.OUT |= PIN1_bm;  
+
 
 	char cLocData[32] = {0}, *pData = cLocData;
+
 	while(1)
 	{
-		if (bRxFlag)
+		// Read buffer for msg length
+		// copy it somewhere
+		// transmit it back
+		// reset flag
+		int k;
+		if (bRxFlag == MSG_LENGTH) // Account for \0
 		{
-			*pData = cRxData; // Copy rx data
-			bRxFlag = 0; // Reset Flag
+			// cli(); 
+			for (pData = cLocData,k=0; k<MSG_LENGTH; k++) // Initialize pointer
+				ring_buffer_get(pData++); // read all data
 
-			if (*pData == '\0') // Check for EOT flag
-			{
-				cli(); // Allow me time to process this data uninterrupted 
+			for (k=0; k<MSG_LENGTH; k++)
+				UARTTrans(cLocData[k]); // transmit all data back
 
-				pData = cLocData; // Reset pointer
-
-				while (*pData != '\0') // use this data 
-				{
-					UARTTrans(*pData); // for now just send it back 
-					pData++;
-				}
-
-				pData = cLocData; // Reset pointer
-				*pData = 0; // Reset Data
-
-				PORTE.OUT ^= PIN1_bm; // Signal full transmition rcvd
-
-				sei(); // Get back to receiving data 
-			}
-			else // not EOT just point to next char 
-				pData++;
+			bRxFlag = 0;
+			// sei();
 		}
 	}
 	return 0;

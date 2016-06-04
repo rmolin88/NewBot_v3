@@ -1,7 +1,7 @@
 #include "../include/uart.h"
 
 extern volatile uint8_t bRxFlag;
-extern volatile char cRxData;
+char data;
 
 void UARTInit()
 {
@@ -38,8 +38,13 @@ ISR(USARTC1_RXC_vect)
 {
 	while(!(USARTC1_STATUS & USART_RXCIF_bm))  // Wait for the Receive Complete Interrupt Flag
 		_NOP(); 								// to be set 
-	cRxData = USARTC1_DATA; 				// Load the data  
-	bRxFlag = 1;
+
+	data = USARTC1_DATA; 				// Load the data  
+	// ring_buffer_put(&data); // Copy data to buffer
+	// ring_buffer_get(&data);
+	// UARTTrans(data);
+	USARTC1_DATA = data; 				// Copy data
+	// bRxFlag++;
 }
 
 

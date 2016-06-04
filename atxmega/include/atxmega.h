@@ -20,6 +20,7 @@
 #include <util/delay.h> // for _delay_ms 
 #include "uart.h"
 #include "sys_clk.h"
+#include "buffer.h"
 
 
 #endif // ATXMEGA_H
